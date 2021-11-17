@@ -4,8 +4,10 @@ import { TextInput, Button } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 
 export default function HomeScreen({ navigation }) {
+
   const [startEng, setStartEng] = useState("Eng. Computação");
   const [startSex, setStartSex] = useState("Masculino");
+  
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Opa, vamo nessa?</Text>
