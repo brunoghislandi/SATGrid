@@ -15,7 +15,7 @@ export default function HomeScreen({ navigation }) {
       setShowIt(true)
       setReturnText("E-mail ou senha inválidos 😳")
     } else {
-      console.log(`Autenticado`)
+      navigation.navigate('Inside')
     }
   }
 

@@ -19,7 +19,7 @@ export default function HomeScreen({ navigation }) {
       setShowIt(true)
       setReturnText("Certeza que preencheu tudo? (ง︡'-'︠)ง")
     } else {
-      console.log(`Autenticado`)
+      navigation.navigate('Inside')
     }
   }
 
