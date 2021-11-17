@@ -15,10 +15,13 @@ export default function HomeScreen({ navigation }) {
       setShowIt(true)
       setReturnText("E-mail ou senha inválidos 😳")
     } else {
-      setShowIt(false)
       console.log(`Autenticado`)
     }
   }
+
+  navigation.addListener('focus', () => {
+    setShowIt(false);
+  });
 
   return (
     <View style={styles.container}>
