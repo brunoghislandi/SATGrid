@@ -5,18 +5,39 @@ import { Picker } from '@react-native-picker/picker';
 
 export default function HomeScreen({ navigation }) {
 
-  const [startEng, setStartEng] = useState("Eng. Computação");
-  const [startSex, setStartSex] = useState("Masculino");
-  
+  const [yourName, setYourName] = useState('');
+  const [yourEmail, setYourEmail] = useState('');
+  const [yourPass, setYourPass] = useState('');
+  const [yourEng, setYourEng] = useState('');
+  const [yourSex, setYourSex] = useState('');
+  const [returnText, setReturnText] = useState('');
+  const [showIt, setShowIt] = useState(false);
+
+  function register() {
+
+    if (!yourName.trim() || !yourEmail.trim() || !yourPass.trim()) {
+      setShowIt(true)
+      setReturnText("Certeza que preencheu tudo? (ง︡'-'︠)ง")
+    } else {
+      console.log(`Autenticado`)
+    }
+  }
+
+  navigation.addListener('focus', () => {
+    setShowIt(false);
+  });
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Opa, vamo nessa?</Text>
       <ScrollView contentContainerStyle={{ paddingBottom: 25 }}>
+        <Text style={styles.text}>Opa, vamo nessa?</Text>
         <Text style={styles.inputText}>Nome</Text>
         <TextInput
           mode="outlined"
           placeholder="Arnold Schwarzenegger"
           activeOutlineColor="navy"
+          value={yourName}
+          onChangeText={yourName => setYourName(yourName)}
           style={styles.input}
         />
         <Text style={styles.inputText}>E-mail</Text>
@@ -24,13 +45,16 @@ export default function HomeScreen({ navigation }) {
           mode="outlined"
           placeholder="example@example.com"
           activeOutlineColor="navy"
+          keyboardType="email-address"
+          value={yourEmail}
+          onChangeText={yourEmail => setYourEmail(yourEmail.trim())}
           style={styles.input}
         />
         <Text style={styles.inputText}>Qual sua Engenharia?</Text>
         <Picker
-          selectedValue={startEng}
+          selectedValue={yourEng}
           style={{ height: 50, width: 150 }}
-          onValueChange={(pickedEng) => setStartEng(pickedEng)}
+          onValueChange={(pickedEng) => setYourEng(pickedEng)}
           style={styles.input}
         >
           <Picker.Item label="Eng. Computação" value="comp" />
@@ -41,9 +65,9 @@ export default function HomeScreen({ navigation }) {
         </Picker>
         <Text style={styles.inputText}>Sexo</Text>
         <Picker
-          selectedValue={startSex}
+          selectedValue={yourSex}
           style={{ height: 50, width: 150 }}
-          onValueChange={(pickedSex) => setStartSex(pickedSex)}
+          onValueChange={(pickedSex) => setYourSex(pickedSex)}
           style={styles.input}
         >
           <Picker.Item label="Masculino" value="masc" />
@@ -56,10 +80,13 @@ export default function HomeScreen({ navigation }) {
           placeholder="••••••••••••••••••"
           activeOutlineColor="navy"
           secureTextEntry={true}
+          value={yourPass}
+          onChangeText={yourPass => setYourPass(yourPass.trim())}
           style={styles.input}
         />
+        {!!showIt ? <Text style={styles.alertText}>{returnText}</Text> : null}
         <Button style={styles.button} mode="contained" color="navy"
-          onPress={() => navigation.navigate('Register')}
+          onPress={() => register()}
         >CADASTRAR</Button>
         <Text style={styles.infoText}> Já tem conta com a gente? ツ </Text>
         <Button style={styles.button} mode="contained" color="gray"
@@ -81,7 +108,6 @@ const styles = StyleSheet.create({
     margin: 5,
     lineHeight: 45,
     marginBottom: 10
-    
   },
   text: {
     marginTop: 30,
@@ -108,5 +134,11 @@ const styles = StyleSheet.create({
     fontFamily: 'sans-serif-light',
     color: 'black',
     alignSelf: 'center'
+  },
+  alertText: {
+    alignSelf: 'center',
+    color: 'crimson',
+    fontWeight: 'bold',
+    fontSize: 14
   }
 });
