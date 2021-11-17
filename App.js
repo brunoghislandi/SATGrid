@@ -1,107 +1,72 @@
-import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
-import { DataTable, Button, Text } from 'react-native-paper';
+import React from "react";
+import { View, StyleSheet, Image, StatusBar } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Button, Text } from 'react-native-paper';
+
+import 'react-native-gesture-handler';
+import loginScreen from "./screens/access/loginScreen";
+import registerScreen from "./screens/access/registerScreen";
+import logo from './assets/logo.png';
 
 function HomeScreen({ navigation }) {
   return (
-    <View style={styles.basic}>
-      <DataTable>
-          <DataTable.Header>
-            <DataTable.Title>Matéria</DataTable.Title>
-            <DataTable.Title numeric>Semestre</DataTable.Title>
-            <DataTable.Title numeric>Pré-Requisito</DataTable.Title>
-          </DataTable.Header>
-      </DataTable>
-      <DataTable>
-        <DataTable.Header>
-          <DataTable.Title>Soluções Mobile</DataTable.Title>
-          <DataTable.Title numeric>6º</DataTable.Title>
-          <DataTable.Title numeric>Soluções WEB</DataTable.Title>
-        </DataTable.Header>
-      </DataTable>
-      <DataTable>
-        <DataTable.Header>
-          <DataTable.Title>Metodologia Projetual</DataTable.Title>
-          <DataTable.Title numeric>6º</DataTable.Title>
-          <DataTable.Title numeric>Criatividade e Inovação</DataTable.Title>
-        </DataTable.Header>
-      </DataTable>
-      <DataTable>
-        <DataTable.Header>
-          <DataTable.Title>Data Science</DataTable.Title>
-          <DataTable.Title numeric>6º</DataTable.Title>
-          <DataTable.Title numeric>Data Mining</DataTable.Title>
-        </DataTable.Header>
-      </DataTable>
-      <DataTable>
-        <DataTable.Header>
-          <DataTable.Title>IoT II</DataTable.Title>
-          <DataTable.Title numeric>6º</DataTable.Title>
-          <DataTable.Title numeric>Sistemas Embarcados</DataTable.Title>
-        </DataTable.Header>
-        <DataTable>
-          <DataTable.Header>
-            <DataTable.Title>Comunicação de Dados</DataTable.Title>
-            <DataTable.Title numeric>6º</DataTable.Title>
-            <DataTable.Title numeric>Redes de Computadores</DataTable.Title>
-          </DataTable.Header>
-        </DataTable>
-      </DataTable>
+    <View style={styles.container}>
+      <Image source={logo} style={{ width: 390, height: 160, resizeMode: 'contain' }} />
+      <Text style={styles.text}>Planejamento de Grade Curricular</Text>
+      <Button style={styles.button} mode="contained" color="green"
+        onPress={() => navigation.navigate('Login')}
+      >ACESSAR</Button>
+      <Button style={styles.button} mode="contained" color="navy"
+        onPress={() => navigation.navigate('Register')}
+      >REGISTRE-SE!</Button>
+      <StatusBar barStyle = "light-content" backgroundColor = "navy" translucent = {true}/>
     </View>
   );
 }
 
-function SemesterScreen({ navigation }) {
-  return (
-    <View style={styles.basic}>
-      <Text>tava testando aqui</Text>
-      <Button style={styles.button} mode="contained" color="red"
-        onPress={() => console.log('opa')}
-      >aperta ai
-      </Button>
-    </View>
-  );
-}
+const Stack = createNativeStackNavigator();
 
-function StatusScreen({ navigation }) {
-  return (
-    <View style={styles.basic}>
-      <Text>hm</Text>
-      <Button style={styles.button} mode="contained" color="orange"
-        onPress={() => console.log('sim')}
-      >esse também
-      </Button>
-    </View>
-  );
-}
+function App() {
 
-const Drawer = createDrawerNavigator();
-
-export default function App() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Eng. da Computação" component={HomeScreen} />
-        <Drawer.Screen name="Semestre" component={SemesterScreen} />
-        <Drawer.Screen name="Status" component={StatusScreen} />
-      </Drawer.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "navy",
+          },
+          headerTintColor: "#fff"
+        }}
+      >
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={loginScreen} options={{ title: "ACESSO" }} />
+        <Stack.Screen name="Register" component={registerScreen} options={{ title: "CADASTRO" }} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
+export default App;
+
 const styles = StyleSheet.create({
-  button: {
-    marginTop: 10,
-    width: '50%',
-    height: 40,
-    alignSelf: 'center',
-    justifyContent: 'center'
-  },
-  basic: {
+  container: {
     flex: 1,
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  button: {
+    marginTop: 10,
+    width: "80%",
+    height: 45,
+    alignSelf: "center",
+    justifyContent: "center",
+  },
+  text: {
+    fontSize: 18,
+    fontFamily: 'sans-serif-light',
+    color: 'navy',
+    marginBottom: 250
   }
 });
