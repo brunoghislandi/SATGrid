@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
-export default function gridCollege() {
+export default function editProfile() {
 
-  const [returnText, setReturnText] = useState('n aguento mais');
+    const returnText = 'n aguento mais'
   const [showIt, setShowIt] = useState(false);
 
     return (

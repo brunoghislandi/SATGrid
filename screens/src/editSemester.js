@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
-export default function gridCollege() {
+export default function editSemester() {
 
-  const [returnText, setReturnText] = useState('o cara se chama felipekkkkkkkkkkkkkkkk');
+  const returnText = 'o cara se chama felipekkkkkkkkkkkkkkkk'
   const [showIt, setShowIt] = useState(false);
 
     return (

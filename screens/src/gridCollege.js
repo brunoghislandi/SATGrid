@@ -4,7 +4,7 @@ import { Button, Text } from 'react-native-paper';
 
 export default function gridCollege() {
 
-  const [returnText, setReturnText] = useState('pro player de react');
+  const returnText = 'pro player de react'
   const [showIt, setShowIt] = useState(false);
 
     return (

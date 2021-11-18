@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
-export default function gridCollege() {
+export default function homeScreen() {
 
-  const [returnText, setReturnText] = useState('muito avançado');
+  const returnText = 'muito avançado'
   const [showIt, setShowIt] = useState(false);
 
     return (

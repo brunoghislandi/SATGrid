@@ -15,7 +15,7 @@ import editSemester from "./screens/src/editSemester";
 import gridCollege from "./screens/src/gridCollege";
 import homeScreen from "./screens/src/homeScreen";
 
-function HomeScreen({ navigation }) {
+function initialScreen ({ navigation }) {
   return (
     <View style={styles.container}>
       <Image source={logo} style={{ width: 390, height: 160, resizeMode: 'contain' }} />
@@ -52,7 +52,7 @@ function InsideApp() {
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
-function App() {
+export default function App() {
 
   return (
     <NavigationContainer>
@@ -64,7 +64,7 @@ function App() {
           headerTintColor: "#fff"
         }}
       >
-        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Home" component={initialScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={loginScreen} options={{ title: "ACESSO" }} />
         <Stack.Screen name="Register" component={registerScreen} options={{ title: "CADASTRO" }} />
         <Stack.Screen name="Inside" component={InsideApp} options={{ headerShown: false }} />
@@ -72,8 +72,6 @@ function App() {
     </NavigationContainer>
   );
 }
-
-export default App;
 
 const styles = StyleSheet.create({
   container: {
