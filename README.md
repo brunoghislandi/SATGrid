@@ -10,8 +10,6 @@
 
 #
 
-### Instalação
-
-<br>
-
-* `npm install`
+<p align="center">
+  <img src="./assets/logo.png" alt="print do Navegador"/><br>
+</p>
