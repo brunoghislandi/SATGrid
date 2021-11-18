@@ -3,29 +3,43 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 
+import openDB from "../../db";
+
+const db = openDB();
+
+const EMPTY_USUARIO = {
+  name: "",
+  email: "",
+  eng: "",
+  sex: "",
+  password: ""
+};
+
 export default function HomeScreen({ navigation }) {
 
-  const [yourName, setYourName] = useState('');
-  const [yourEmail, setYourEmail] = useState('');
-  const [yourPass, setYourPass] = useState('');
-  const [yourEng, setYourEng] = useState('');
-  const [yourSex, setYourSex] = useState('');
+  const [usuario, setUsuario] = useState({ ...EMPTY_USUARIO });
   const [returnText, setReturnText] = useState('');
   const [showIt, setShowIt] = useState(false);
 
   function register() {
 
-    if (!yourName.trim() || !yourEmail.trim() || !yourPass.trim()) {
+    if (!usuario.name.trim() || !usuario.email.trim() || !usuario.password.trim()) {
       setShowIt(true)
       setReturnText("Certeza que preencheu tudo? (ง︡'-'︠)ง")
     } else {
-      navigation.navigate('Inside')
+      saveUsuario(usuario)
+      setUsuario({ ...EMPTY_USUARIO });
+      navigation.navigate('Inside', { usuario })
     }
   }
 
-  navigation.addListener('focus', () => {
-    setShowIt(false);
-  });
+  function saveUsuario(usuario) {
+    db.transaction(tx => {
+      tx.executeSql("INSERT INTO usuarios (name, email, eng, sex, password) VALUES(?, ?, ?, ?, ?)", [usuario.name, usuario.email, usuario.eng, usuario.sex, usuario.password], (_, rs) => {
+        console.log(`Novo usuario salvo: ${rs.insertId}`);
+      });
+    });
+  }
 
   return (
     <View style={styles.container}>
@@ -36,8 +50,8 @@ export default function HomeScreen({ navigation }) {
           mode="outlined"
           placeholder="Arnold Schwarzenegger"
           activeOutlineColor="navy"
-          value={yourName}
-          onChangeText={yourName => setYourName(yourName)}
+          value={usuario.name}
+          onChangeText={name => setUsuario({ ...usuario, name })}
           style={styles.input}
         />
         <Text style={styles.inputText}>E-mail</Text>
@@ -46,15 +60,15 @@ export default function HomeScreen({ navigation }) {
           placeholder="example@example.com"
           activeOutlineColor="navy"
           keyboardType="email-address"
-          value={yourEmail}
-          onChangeText={yourEmail => setYourEmail(yourEmail.trim())}
+          value={usuario.email}
+          onChangeText={email => setUsuario({ ...usuario, email })}
           style={styles.input}
         />
         <Text style={styles.inputText}>Qual sua Engenharia?</Text>
         <Picker
-          selectedValue={yourEng}
           style={{ height: 50, width: 150 }}
-          onValueChange={(pickedEng) => setYourEng(pickedEng)}
+          selectedValue={usuario.eng}
+          onValueChange={(eng) => setUsuario({ ...usuario, eng })}
           style={styles.input}
         >
           <Picker.Item label="Eng. Computação" value="comp" />
@@ -65,9 +79,9 @@ export default function HomeScreen({ navigation }) {
         </Picker>
         <Text style={styles.inputText}>Sexo</Text>
         <Picker
-          selectedValue={yourSex}
           style={{ height: 50, width: 150 }}
-          onValueChange={(pickedSex) => setYourSex(pickedSex)}
+          selectedValue={usuario.sex}
+          onValueChange={(sex) => setUsuario({ ...usuario, sex })}
           style={styles.input}
         >
           <Picker.Item label="Masculino" value="masc" />
@@ -80,8 +94,8 @@ export default function HomeScreen({ navigation }) {
           placeholder="••••••••••••••••••"
           activeOutlineColor="navy"
           secureTextEntry={true}
-          value={yourPass}
-          onChangeText={yourPass => setYourPass(yourPass.trim())}
+          value={usuario.password}
+          onChangeText={password => setUsuario({ ...usuario, password })}
           style={styles.input}
         />
         {!!showIt ? <Text style={styles.alertText}>{returnText}</Text> : null}
