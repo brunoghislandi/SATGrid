@@ -10,9 +10,9 @@ const db = openDB();
 const EMPTY_USUARIO = {
   name: "",
   email: "",
-  eng: "",
-  sex: "",
-  password: ""
+  password: "",
+  eng: "Eng. Computação",
+  sex: "Masculino"
 };
 
 export default function HomeScreen({ navigation }) {
@@ -68,25 +68,25 @@ export default function HomeScreen({ navigation }) {
         <Picker
           style={{ height: 50, width: 150 }}
           selectedValue={usuario.eng}
-          onValueChange={(eng) => setUsuario({ ...usuario, eng })}
+          onValueChange={eng => setUsuario({ ...usuario, eng })}
           style={styles.input}
         >
-          <Picker.Item label="Eng. Computação" value="comp" />
-          <Picker.Item label="Eng. Mecânica" value="mec" />
-          <Picker.Item label="Eng. Elétrica" value="eletro" />
-          <Picker.Item label="Eng. Mecatrônica" value="meca" />
-          <Picker.Item label="Eng. Minas" value="minas" />
+          <Picker.Item label="Eng. Computação" value="Eng. Computação" />
+          <Picker.Item label="Eng. Mecânica" value="Eng. Mecânica" />
+          <Picker.Item label="Eng. Elétrica" value="Eng. Elétrica" />
+          <Picker.Item label="Eng. Mecatrônica" value="Eng. Mecatrônica" />
+          <Picker.Item label="Eng. Minas" value="Eng. Minas" />
         </Picker>
         <Text style={styles.inputText}>Sexo</Text>
         <Picker
           style={{ height: 50, width: 150 }}
           selectedValue={usuario.sex}
-          onValueChange={(sex) => setUsuario({ ...usuario, sex })}
+          onValueChange={sex => setUsuario({ ...usuario, sex })}
           style={styles.input}
         >
-          <Picker.Item label="Masculino" value="masc" />
-          <Picker.Item label="Feminino" value="fem" />
-          <Picker.Item label="Outro" value="outro" />
+          <Picker.Item label="Masculino" value="Masculino" />
+          <Picker.Item label="Feminino" value="Feminino" />
+          <Picker.Item label="Outro" value="Outro" />
         </Picker>
         <Text style={styles.inputText}>Senha</Text>
         <TextInput
