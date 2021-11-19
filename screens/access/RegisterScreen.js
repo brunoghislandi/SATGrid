@@ -61,7 +61,7 @@ export default function RegisterScreen({ navigation }) {
           placeholder="example@example.com"
           activeOutlineColor="navy"
           keyboardType="email-address"
-          value={usuario.email}
+          value={usuario.email.trim()}
           onChangeText={email => setUsuario({ ...usuario, email })}
           style={styles.input}
         />
@@ -95,7 +95,7 @@ export default function RegisterScreen({ navigation }) {
           placeholder="••••••••••••••••••"
           activeOutlineColor="navy"
           secureTextEntry={true}
-          value={usuario.password}
+          value={usuario.password.trim()}
           onChangeText={password => setUsuario({ ...usuario, password })}
           style={styles.input}
         />
