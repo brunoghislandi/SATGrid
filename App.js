@@ -6,16 +6,16 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Button, Text } from 'react-native-paper';
 
 import 'react-native-gesture-handler';
-import loginScreen from "./screens/access/loginScreen";
-import registerScreen from "./screens/access/registerScreen";
+import LoginScreen from "./screens/access/LoginScreen";
+import RegisterScreen from "./screens/access/RegisterScreen";
 import logo from './assets/logo.png';
 
-import editProfile from "./screens/src/editProfile";
-import editSemester from "./screens/src/editSemester";
-import gridCollege from "./screens/src/gridCollege";
-import homeScreen from "./screens/src/homeScreen";
+import EditProfile from "./screens/src/EditProfile";
+import EditSemester from "./screens/src/EditSemester";
+import GridCollege from "./screens/src/GridCollege";
+import ShowUser from "./screens/src/HomeScreen";
 
-function initialScreen ({ navigation }) {
+function InitialScreen ({ navigation }) {
   return (
     <View style={styles.container}>
       <Image source={logo} style={{ width: 390, height: 160, resizeMode: 'contain' }} />
@@ -41,10 +41,10 @@ function InsideApp() {
           headerTintColor: "#fff"
         }}
       >
-        <Drawer.Screen name="Tela Inicial" component={homeScreen} options={{ title: "Bem-vindo!" }} />
-        <Drawer.Screen name="Grade Completa" component={gridCollege} options={{ title: "Suas matérias" }} />
-        <Drawer.Screen name="Editar Semestre" component={editSemester} options={{ title: "Edição de Semestre" }} />
-        <Drawer.Screen name="Editar Perfil" component={editProfile} options={{ title: "Edição de Perfil" }} />
+        <Drawer.Screen name="ShowUser" component={ShowUser} options={{ title: "Bem-vindo!" }} />
+        <Drawer.Screen name="Grade Completa" component={GridCollege} options={{ title: "Suas matérias" }} />
+        <Drawer.Screen name="Editar Semestre" component={EditSemester} options={{ title: "Edição de Semestre" }} />
+        <Drawer.Screen name="Editar Perfil" component={EditProfile} options={{ title: "Edição de Perfil" }} />
       </Drawer.Navigator>
   );
 }
@@ -64,9 +64,9 @@ export default function App() {
           headerTintColor: "#fff"
         }}
       >
-        <Stack.Screen name="Home" component={initialScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Login" component={loginScreen} options={{ title: "ACESSO" }} />
-        <Stack.Screen name="Register" component={registerScreen} options={{ title: "CADASTRO" }} />
+        <Stack.Screen name="Home" component={InitialScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={LoginScreen} options={{ title: "ACESSO" }} />
+        <Stack.Screen name="Register" component={RegisterScreen} options={{ title: "CADASTRO" }} />
         <Stack.Screen name="Inside" component={InsideApp} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
