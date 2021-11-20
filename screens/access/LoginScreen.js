@@ -2,21 +2,40 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 
+const EMPTY_USR = {
+  email: "",
+  password: ""
+};
+
+import openDB from "../../db";
+
+const db = openDB();
+
 export default function LoginScreen({ navigation }) {
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [usuario, setUsuario] = useState({ ...EMPTY_USR });
   const [returnText, setReturnText] = useState('');
   const [showIt, setShowIt] = useState(false);
 
   function login() {
 
-    if (!email.trim() || !password.trim()) {
+    if (!usuario.email.trim() || !usuario.password.trim()) {
       setShowIt(true)
       setReturnText("E-mail ou senha inválidos 😳")
     } else {
-      // navigation.navigate('Inside')
+      verify(usuario, (userID) => {
+        navigation.navigate('Inside', { screen: 'ShowUser', params: { userID } });
+      });
     }
+  }
+
+  function verify(usuario, onSuccessSaved) {
+    db.transaction(tx => {
+      tx.executeSql("SELECT * FROM usuarios  WHERE email = ? AND password = ?", [usuario.email, usuario.password], (_, rs) => {
+        console.log(`Usuário ID ${rs.rows._array[0].id} logado.`);
+        onSuccessSaved(rs.rows._array[0].id);
+      });
+    });
   }
 
   navigation.addListener('focus', () => {
@@ -32,8 +51,8 @@ export default function LoginScreen({ navigation }) {
         placeholder="example@example.com"
         activeOutlineColor="navy"
         keyboardType="email-address"
-        value={email}
-        onChangeText={email => setEmail(email.trim())}
+        value={usuario.email.trim()}
+        onChangeText={email => setUsuario({ ...usuario, email })}
         style={styles.input}
       />
       <Text style={styles.inputText}>Digite sua senha abaixo:</Text>
@@ -42,8 +61,8 @@ export default function LoginScreen({ navigation }) {
         placeholder="••••••••••••••••••"
         activeOutlineColor="navy"
         secureTextEntry={true}
-        value={password}
-        onChangeText={password => setPassword(password.trim())}
+        value={usuario.password.trim()}
+        onChangeText={password => setUsuario({ ...usuario, password })}
         style={styles.input}
       />
       {!!showIt ? <Text style={styles.alertText}>{returnText}</Text> : null}
