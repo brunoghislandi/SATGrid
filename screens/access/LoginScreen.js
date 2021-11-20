@@ -21,22 +21,31 @@ export default function LoginScreen({ navigation }) {
 
     if (!usuario.email.trim() || !usuario.password.trim()) {
       setShowIt(true)
-      setReturnText("E-mail ou senha inválidos 😳")
+      setReturnText("Certeza que preencheu tudo? (ง︡'-'︠)ง")
     } else {
       verify(usuario, (userID) => {
-        navigation.navigate('Inside', { screen: 'ShowUser', params: { userID } });
+        if (userID === null) {
+          setShowIt(true)
+          setReturnText("Dados não cadastrados 😳")
+        } else {
+          navigation.navigate('Inside', { screen: 'ShowUser', params: { userID } });
+        }
       });
     }
   }
 
-  function verify(usuario, onSuccessSaved) {
+  function verify(usuario, onSuccess) {
     db.transaction(tx => {
       tx.executeSql("SELECT * FROM usuarios  WHERE email = ? AND password = ?", [usuario.email, usuario.password], (_, rs) => {
-        console.log(`Usuário ID ${rs.rows._array[0].id} logado.`);
-        onSuccessSaved(rs.rows._array[0].id);
+        if (rs.rows.length === 0) {
+          onSuccess(null);
+        } else {
+          console.log(`Usuário ID ${rs.rows._array[0].id} logado.`);
+          onSuccess(rs.rows._array[0].id);
+        }
       });
     });
-  }
+  } 
 
   navigation.addListener('focus', () => {
     setShowIt(false);
