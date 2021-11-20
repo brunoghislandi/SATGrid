@@ -4,8 +4,8 @@ import { Button, Text } from 'react-native-paper';
 
 export default function EditSemester() {
 
-  const returnText = 'o cara se chama felipekkkkkkkkkkkkkkkk'
-  const [showIt, setShowIt] = useState(false);
+    const returnText = 'o cara se chama felipekkkkkkkkkkkkkkkk'
+    const [showIt, setShowIt] = useState(false);
 
     return (
         <View style={styles.basic}>
@@ -14,7 +14,7 @@ export default function EditSemester() {
                 onPress={() => setShowIt(!showIt)}
             >aperta ai
             </Button>
-            {!!showIt ? <Text style={{marginTop: 10, fontSize: 16}}>{returnText}</Text> : null}
+            {!!showIt ? <Text style={{ marginTop: 10, fontSize: 16 }}>{returnText}</Text> : null}
         </View>
     );
 }

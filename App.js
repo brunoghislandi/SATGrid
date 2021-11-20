@@ -15,7 +15,7 @@ import EditSemester from "./screens/src/EditSemester";
 import GridCollege from "./screens/src/GridCollege";
 import ShowUser from "./screens/src/HomeScreen";
 
-function InitialScreen ({ navigation }) {
+function InitialScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Image source={logo} style={{ width: 390, height: 160, resizeMode: 'contain' }} />
@@ -33,19 +33,19 @@ function InitialScreen ({ navigation }) {
 
 function InsideApp() {
   return (
-      <Drawer.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: "navy",
-          },
-          headerTintColor: "#fff"
-        }}
-      >
-        <Drawer.Screen name="ShowUser" component={ShowUser} options={{ title: "Bem-vindo!" }} />
-        <Drawer.Screen name="Grade Completa" component={GridCollege} options={{ title: "Suas matérias" }} />
-        <Drawer.Screen name="Editar Semestre" component={EditSemester} options={{ title: "Edição de Semestre" }} />
-        <Drawer.Screen name="Editar Perfil" component={EditProfile} options={{ title: "Edição de Perfil" }} />
-      </Drawer.Navigator>
+    <Drawer.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "navy",
+        },
+        headerTintColor: "#fff"
+      }}
+    >
+      <Drawer.Screen name="ShowUser" component={ShowUser} options={{ title: "Bem-vindo!" }} />
+      <Drawer.Screen name="Grade Completa" component={GridCollege} options={{ title: "Suas matérias" }} />
+      <Drawer.Screen name="Editar Semestre" component={EditSemester} options={{ title: "Edição de Semestre" }} />
+      <Drawer.Screen name="Editar Perfil" component={EditProfile} options={{ title: "Edição de Perfil" }} />
+    </Drawer.Navigator>
   );
 }
 

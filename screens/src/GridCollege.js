@@ -4,8 +4,8 @@ import { Button, Text } from 'react-native-paper';
 
 export default function GridCollege() {
 
-  const returnText = 'pro player de react'
-  const [showIt, setShowIt] = useState(false);
+    const returnText = 'pro player de react'
+    const [showIt, setShowIt] = useState(false);
 
     return (
         <View style={styles.basic}>
@@ -14,7 +14,7 @@ export default function GridCollege() {
                 onPress={() => setShowIt(!showIt)}
             >aperta ai
             </Button>
-            {!!showIt ? <Text style={{marginTop: 10, fontSize: 16}}>{returnText}</Text> : null}
+            {!!showIt ? <Text style={{ marginTop: 10, fontSize: 16 }}>{returnText}</Text> : null}
         </View>
     );
 }

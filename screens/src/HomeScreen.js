@@ -49,7 +49,7 @@ export default function ShowUser({ route }) {
         {!loading ? (
           <View>
             {usuarios.map(usuario => (
-              <ReturnData key={usuario.id} usuario={usuario}/>
+              <ReturnData key={usuario.id} usuario={usuario} />
             ))}
           </View>
         ) : (

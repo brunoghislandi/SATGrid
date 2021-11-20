@@ -28,11 +28,11 @@ export default function RegisterScreen({ navigation }) {
     } else {
       saveUser(usuario, (userID) => {
         setUsuario({ ...EMPTY_USR });
-        navigation.navigate('Inside', {screen: 'ShowUser', params: { userID }});
+        navigation.navigate('Inside', { screen: 'ShowUser', params: { userID } });
       });
     }
   }
-  
+
   function saveUser(usuario, onSuccessSaved) {
     db.transaction(tx => {
       tx.executeSql("INSERT INTO usuarios (name, email, eng, sex, password) VALUES(?, ?, ?, ?, ?)", [usuario.name, usuario.email, usuario.eng, usuario.sex, usuario.password], (_, rs) => {
