@@ -26,11 +26,30 @@ export default function RegisterScreen({ navigation }) {
       setShowIt(true)
       setReturnText("Certeza que preencheu tudo? (ง︡'-'︠)ง")
     } else {
-      saveUser(usuario, (userID) => {
-        setUsuario({ ...EMPTY_USR });
-        navigation.navigate('Inside', { screen: 'ShowUser', params: { userID } });
-      });
+      verify(usuario, (haveEmail) => {
+        if (haveEmail == true) {
+          saveUser(usuario, (userID) => {
+            setUsuario({ ...EMPTY_USR });
+            navigation.navigate('Inside', { screen: 'ShowUser', params: { userID } });
+          });
+        } else {
+          setShowIt(true)
+          setReturnText("E-mail já cadastrado 😳")
+        }
+      })
     }
+  }
+
+  function verify(usuario, onSuccess) {
+    db.transaction(tx => {
+      tx.executeSql("SELECT * FROM usuarios  WHERE email = ?", [usuario.email], (_, rs) => {
+        if (rs.rows.length === 0) {
+          onSuccess(true);
+        } else {
+          onSuccess(false);
+        }
+      });
+    });
   }
 
   function saveUser(usuario, onSuccessSaved) {
@@ -41,6 +60,10 @@ export default function RegisterScreen({ navigation }) {
       });
     });
   }
+
+  navigation.addListener('focus', () => {
+    setShowIt(false);
+  });
 
   return (
     <View style={styles.container}>
