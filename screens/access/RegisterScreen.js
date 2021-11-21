@@ -26,8 +26,8 @@ export default function RegisterScreen({ navigation }) {
       setShowIt(true)
       setReturnText("Certeza que preencheu tudo? (ง︡'-'︠)ง")
     } else {
-      verify(usuario, (haveEmail) => {
-        if (haveEmail == true) {
+      verify(usuario, (empty) => {
+        if (empty == true) {
           saveUser(usuario, (userID) => {
             setUsuario({ ...EMPTY_USR });
             navigation.navigate('Inside', { screen: 'ShowUser', params: { userID } });
