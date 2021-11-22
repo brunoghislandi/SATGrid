@@ -1,0 +1,202 @@
+{
+  "monday": {
+    "subjects": [
+      {
+        "name": "Calculo I",
+        "period": "1"
+      },
+      {
+        "name": "Calculo II",
+        "period": "2"
+      },
+      {
+        "name": "Calculo III",
+        "period": "3"
+      },
+      {
+        "name": "Calculo IV",
+        "period": "4"
+      },
+      {
+        "name": "Criatividade e Inovação",
+        "period": "5"
+      },
+      {
+        "name": "Metodologia Projetual",
+        "period": "6"
+      },
+      {
+        "name": "Design de Interação",
+        "period": "7"
+      },
+      {
+        "name": "TCC I",
+        "period": "8"
+      },
+      {
+        "name": "TCC II",
+        "period": "9"
+      }
+    ]
+  },
+  "tuesday": {
+    "subjects": [
+      {
+        "name": "Quimica",
+        "period": "1"
+      },
+      {
+        "name": "Física I",
+        "period": "2"
+      },
+      {
+        "name": "Física II",
+        "period": "3"
+      },
+      {
+        "name": "Física III",
+        "period": "4"
+      },
+      {
+        "name": "Redes",
+        "period": "5"
+      },
+      {
+        "name": "Comunicação de Dados",
+        "period": "6"
+      },
+      {
+        "name": "Cloud Computing",
+        "period": "7"
+      },
+      {
+        "name": "Segurança Computacional",
+        "period": "8"
+      },
+      {
+        "name": "Tecnicas de Segurança Computacional",
+        "period": "9"
+      }
+    ]
+  },
+  "wednesday": {
+    "subjects": [
+      {
+        "name": "Algebra Linear e Geometria Analitica",
+        "period": "1"
+      },
+      {
+        "name": "Desenho Tecnico",
+        "period": "2"
+      },
+      {
+        "name": "Estatística",
+        "period": "3"
+      },
+      {
+        "name": "Gestão de Pessoas e Meio Ambiente",
+        "period": "4"
+      },
+      {
+        "name": "Soluções Web",
+        "period": "5"
+      },
+      {
+        "name": "Soluções Mobile",
+        "period": "6"
+      },
+      {
+        "name": "Engenharia de Software",
+        "period": "7"
+      },
+      {
+        "name": "Arquitetura da Informação",
+        "period": "8"
+      },
+      {
+        "name": "Soluções em Jogos Digitais",
+        "period": "9"
+      }
+    ]
+  },
+  "thursday": {
+    "subjects": [
+      {
+        "name": "Metodologia Cientifica e Comunicação e Expressão",
+        "period": "1"
+      },
+      {
+        "name": "IoT",
+        "period": "2"
+      },
+      {
+        "name": "Programação e Estrutura de Dados",
+        "period": "3"
+      },
+      {
+        "name": "Banco de Dados",
+        "period": "4"
+      },
+      {
+        "name": "Data Mining",
+        "period": "5"
+      },
+      {
+        "name": "Data Science",
+        "period": "6"
+      },
+      {
+        "name": "Inteligência Artificial",
+        "period": "7"
+      },
+      {
+        "name": "Machine Learning",
+        "period": "8"
+      },
+      {
+        "name": "Visão Computacional",
+        "period": "9"
+      }
+    ]
+  },
+  "friday": {
+    "subjects": [
+      {
+        "name": "Introdução à Eng. da Computação",
+        "period": "1"
+      },
+      {
+        "name": "IoT",
+        "period": "2"
+      },
+      {
+        "name": "Programação",
+        "period": "3"
+      },
+      {
+        "name": "Sistemas digitais e Circuitos Eletricos",
+        "period": "4"
+      },
+      {
+        "name": "Sistemas Eletronicos",
+        "period": "5"
+      },
+      {
+        "name": "Sistemas Embarcados",
+        "period": "6"
+      },
+      {
+        "name": "IoT II",
+        "period": "7"
+      },
+      {
+        "name": "Processamento de Sinais",
+        "period": "8"
+      },
+      {
+        "name": "IoT Aplicada",
+        "period": "9"
+      }
+    ]
+  }
+}
