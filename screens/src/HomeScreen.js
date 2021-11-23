@@ -29,6 +29,8 @@ export default function ShowUser({ route }) {
   const { userID } = route.params;
   const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  navigation.navigate('EditSemester', { ID: userID});
 
   function recoverData() {
     db.transaction(tx => {

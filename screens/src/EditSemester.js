@@ -6,6 +6,9 @@ import { Picker } from "@react-native-picker/picker";
 
 import subjects from './mocks/subjects.json';
 
+import openDB from "../../db";
+
+const db = openDB();
 
 function SelectSubjects({ subjectsOfWeek, dayOfWeek }) {
 
@@ -32,8 +35,9 @@ function SelectSubjects({ subjectsOfWeek, dayOfWeek }) {
     );
 }
 
-export default function EditSemester() {
+export default function EditSemester({ route }) {
 
+    const { ID } = route.params;
     const subjectsMonday = subjects.monday.subjects;
     const subjectsTuesday = subjects.tuesday.subjects;
     const subjectsWednesday = subjects.wednesday.subjects;
@@ -43,6 +47,14 @@ export default function EditSemester() {
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
+    function recoverData() {
+        db.transaction(tx => {
+          tx.executeSql("SELECT * FROM usuarios WHERE id = ?", [ID], (_, rs) => {
+            setUsuarios(rs.rows._array);
+            setLoading(false);
+          });
+        });
+      }
 
     return (
         <>
