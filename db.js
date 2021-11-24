@@ -11,6 +11,18 @@ const SQL_CREATE_ENTRIES = [
       sex varchar(255) NOT NULL,
       password varchar(255) NOT NULL
     )`,
+  `CREATE TABLE IF NOT EXISTS semestres (
+      id INTEGER PRIMARY KEY autoincrement,
+      usuario_id INTEGER NOT NULL,
+      name varchar(255) NOT NULL,
+      materia1 varchar(255) NOT NULL,
+      materia2 varchar(255) NOT NULL,
+      materia3 varchar(255) NOT NULL,
+      materia4 varchar(255) NOT NULL,
+      materia5 varchar(255) NOT NULL,
+      finalizarsemestre varchar(32),
+      semestresatual varchar(32)
+    )`,
 ];
 
 let _db = null;

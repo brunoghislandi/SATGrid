@@ -1,31 +1,38 @@
 import React from "react";
-import { View, StyleSheet, Image, StatusBar } from 'react-native';
+import { View, StyleSheet, Image, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { Button, Text } from 'react-native-paper';
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { Button, Text } from "react-native-paper";
 
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
+
+import { AuthProvider } from "./context/AuthContext";
+import { UsuarioProvider } from "./context/UsuarioContext";
+
+import logo from "./assets/logo.png";
+
 import LoginScreen from "./screens/access/LoginScreen";
 import RegisterScreen from "./screens/access/RegisterScreen";
-import logo from './assets/logo.png';
 
-import EditProfile from "./screens/src/EditProfile";
-import EditSemester from "./screens/src/EditSemester";
-import GridCollege from "./screens/src/GridCollege";
-import ShowUser from "./screens/src/HomeScreen";
+import ShowUser from "./screens/HomeScreen";
+
+import EditProfile from "./screens/user/EditProfile";
+import GridCollege from "./screens/user/GridCollege";
+
+import EditSemester from "./screens/semester/EditSemester";
 
 function InitialScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Image source={logo} style={{ width: 390, height: 160, resizeMode: 'contain' }} />
+      <Image source={logo} style={{ width: 390, height: 160, resizeMode: "contain" }} />
       <Text style={styles.text}>Planejamento de Grade Curricular</Text>
-      <Button style={styles.button} mode="contained" color="green"
-        onPress={() => navigation.navigate('Login')}
-      >ACESSAR</Button>
-      <Button style={styles.button} mode="contained" color="navy"
-        onPress={() => navigation.navigate('Register')}
-      >REGISTRE-SE!</Button>
+      <Button style={styles.button} mode="contained" color="green" onPress={() => navigation.navigate("Login")}>
+        ACESSAR
+      </Button>
+      <Button style={styles.button} mode="contained" color="navy" onPress={() => navigation.navigate("Register")}>
+        REGISTRE-SE!
+      </Button>
       <StatusBar barStyle="light-content" backgroundColor="navy" translucent={true} />
     </View>
   );
@@ -38,9 +45,8 @@ function InsideApp() {
         headerStyle: {
           backgroundColor: "navy",
         },
-        headerTintColor: "#fff"
-      }}
-    >
+        headerTintColor: "#fff",
+      }}>
       <Drawer.Screen name="ShowUser" component={ShowUser} options={{ title: "Bem-vindo!" }} />
       <Drawer.Screen name="Grade Completa" component={GridCollege} options={{ title: "Suas matérias" }} />
       <Drawer.Screen name="Editar Semestre" component={EditSemester} options={{ title: "Edição de Semestre" }} />
@@ -53,32 +59,34 @@ const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 export default function App() {
-
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: "navy",
-          },
-          headerTintColor: "#fff"
-        }}
-      >
-        <Stack.Screen name="Home" component={InitialScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Login" component={LoginScreen} options={{ title: "ACESSO" }} />
-        <Stack.Screen name="Register" component={RegisterScreen} options={{ title: "CADASTRO" }} />
-        <Stack.Screen name="Inside" component={InsideApp} options={{ headerShown: false }} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AuthProvider>
+      <UsuarioProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: "navy",
+              },
+              headerTintColor: "#fff",
+            }}>
+            <Stack.Screen name="Home" component={InitialScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Login" component={LoginScreen} options={{ title: "ACESSO" }} />
+            <Stack.Screen name="Register" component={RegisterScreen} options={{ title: "CADASTRO" }} />
+            <Stack.Screen name="Inside" component={InsideApp} options={{ headerShown: false }} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </UsuarioProvider>
+    </AuthProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
   button: {
     marginTop: 10,
@@ -89,8 +97,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
-    fontFamily: 'sans-serif-light',
-    color: 'navy',
-    marginBottom: 250
-  }
+    fontFamily: "sans-serif-light",
+    color: "navy",
+    marginBottom: 250,
+  },
 });
