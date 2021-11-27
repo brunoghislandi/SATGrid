@@ -1,0 +1,292 @@
+{
+  "monday": {
+    "subjects": [
+      {
+        "id": "1401023",
+        "name": "Calculo I",
+        "period": "1",
+        "req":""
+      },
+      {
+        "id": "1402013",
+        "name": "Calculo II",
+        "period": "2",
+        "req":"1401023"
+      },
+      {
+        "id": "1403013",
+        "name": "Calculo III",
+        "period": "3",
+        "req":"1402013"
+      },
+      {
+        "id": "1404013",
+        "name": "Calculo IV",
+        "period": "4",
+        "req":"1403013"
+      },
+      {
+        "id": "1405013",
+        "name": "Criatividade e Inovação",
+        "period": "5",
+        "req":""
+      },
+      {
+        "id": "1406013",
+        "name": "Metodologia Projetual",
+        "period": "6",
+        "req":"1405013"
+      },
+      {
+        "id": "1407013",
+        "name": "Design de Interação",
+        "period": "7",
+        "req":"1406013"
+      },
+      {
+        "id": "1408013",
+        "name": "TCC I",
+        "period": "8",
+        "req":""
+      },
+      {
+        "id": "1409013",
+        "name": "TCC II",
+        "period": "9",
+        "req":"1408013"
+      }
+    ]
+  },
+  "tuesday": {
+    "subjects": [
+      {
+        "id": "1401043",
+        "name": "Quimica",
+        "period": "1",
+        "req":""
+      },
+      {
+        "id": "1402023",
+        "name": "Física I",
+        "period": "2",
+        "req":""
+      },
+      {
+        "id": "1403043",
+        "name": "Física II",
+        "period": "3",
+        "req":""
+      },
+      {
+        "id": "1404023",
+        "name": "Física III",
+        "period": "4",
+        "req":""
+      },
+      {
+        "id": "1405023",
+        "name": "Redes",
+        "period": "5",
+        "req":""
+      },
+      {
+        "id": "1406023",
+        "name": "Comunicação de Dados",
+        "period": "6",
+        "req":"1405023"
+      },
+      {
+        "id": "1407023",
+        "name": "Cloud Computing",
+        "period": "7",
+        "req":"1406023"
+      },
+      {
+        "id": "1408023",
+        "name": "Segurança Computacional",
+        "period": "8",
+        "req":"1405023"
+      },
+      {
+        "id": "1409023",
+        "name": "Tecnicas de Segurança Computacional",
+        "period": "9",
+        "req":"1408023"
+      }
+    ]
+  },
+  "wednesday": {
+    "subjects": [
+      {
+        "id": "1401033",
+        "name": "Algebra Linear e Geometria Analitica",
+        "period": "1",
+        "req":""
+      },
+      {
+        "id": "1402033",
+        "name": "Desenho Tecnico",
+        "period": "2",
+        "req":""
+      },
+      {
+        "id": "1403023",
+        "name": "Estatística",
+        "period": "3",
+        "req":""
+      },
+      {
+        "id": "1404033",
+        "name": "Gestão de Pessoas e Meio Ambiente",
+        "period": "4",
+        "req":""
+      },
+      {
+        "id": "1405033",
+        "name": "Soluções Web",
+        "period": "5",
+        "req":""
+      },
+      {
+        "id": "1406033",
+        "name": "Soluções Mobile",
+        "period": "6",
+        "req":""
+      },
+      {
+        "id": "1407033",
+        "name": "Engenharia de Software",
+        "period": "7",
+        "req":""
+      },
+      {
+        "id": "1408033",
+        "name": "Arquitetura da Informação",
+        "period": "8",
+        "req":"1407033"
+      },
+      {
+        "id": "1409033",
+        "name": "Soluções em Jogos Digitais",
+        "period": "9",
+        "req":""
+      }
+    ]
+  },
+  "thursday": {
+    "subjects": [
+      {
+        "id": "1401053",
+        "name": "Metodologia Cientifica e Comunicação e Expressão",
+        "period": "1",
+        "req":""
+      },
+      {
+        "id": "1402043",
+        "name": "IoT",
+        "period": "2",
+        "req":""
+      },
+      {
+        "id": "1403033",
+        "name": "Programação e Estrutura de Dados",
+        "period": "3",
+        "req":""
+      },
+      {
+        "id": "1404053",
+        "name": "Banco de Dados",
+        "period": "4",
+        "req":"1403033"
+      },
+      {
+        "id": "1405043",
+        "name": "Data Mining",
+        "period": "5",
+        "req":""
+      },
+      {
+        "id": "1406043",
+        "name": "Data Science",
+        "period": "6",
+        "req":"1405043"
+      },
+      {
+        "id": "1407043",
+        "name": "Inteligência Artificial",
+        "period": "7",
+        "req":"1406043"
+      },
+      {
+        "id": "1408043",
+        "name": "Machine Learning",
+        "period": "8",
+        "req":"1408043"
+      },
+      {
+        "id": "1409043",
+        "name": "Visão Computacional",
+        "period": "9",
+        "req":""
+      }
+    ]
+  },
+  "friday": {
+    "subjects": [
+      {
+        "id": "1401013",
+        "name": "Introdução à Eng. da Computação",
+        "period": "1",
+        "req":""
+      },
+      {
+        "id": "1402043",
+        "name": "IoT",
+        "period": "2",
+        "req":""
+      },
+      {
+        "id": "1402053",
+        "name": "Programação",
+        "period": "3",
+        "req":""
+      },
+      {
+        "id": "1403053",
+        "name": "Sistemas digitais e Circuitos Eletricos",
+        "period": "4",
+        "req":""
+      },
+      {
+        "id": "1404063",
+        "name": "Sistemas Eletronicos",
+        "period": "5",
+        "req":"1403053"
+      },
+      {
+        "id": "1405053",
+        "name": "Sistemas Embarcados",
+        "period": "6",
+        "req":"1405053"
+      },
+      {
+        "id": "1406053",
+        "name": "IoT II",
+        "period": "7",
+        "req":"1402043"
+      },
+      {
+        "id": "1407053",
+        "name": "Processamento de Sinais",
+        "period": "8",
+        "req":""
+      },
+      {
+        "id": "1408053",
+        "name": "IoT Aplicada",
+        "period": "9",
+        "req":"1406053"
+      }
+    ]
+  }
+}
