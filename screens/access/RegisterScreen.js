@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { TextInput, Button } from 'react-native-paper';
-import { Picker } from '@react-native-picker/picker';
+import React, { useState } from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { TextInput, Button } from "react-native-paper";
+import { Picker } from "@react-native-picker/picker";
 
 import openDB from "../../db";
+
+import { useAuth } from "../../context/AuthContext";
 
 const db = openDB();
 
@@ -12,41 +14,53 @@ const EMPTY_USR = {
   email: "",
   password: "",
   eng: "Eng. Computação",
-  sex: "Masculino"
+  sex: "Masculino",
 };
 
 export default function RegisterScreen({ navigation }) {
+  // resgatando do AuthContext a função que "recebe"
+  // o usuário logado para depois "divulgar" a toda
+  // a aplicação
+  const { login } = useAuth();
 
   const [usuario, setUsuario] = useState({ ...EMPTY_USR });
-  const [returnText, setReturnText] = useState('');
+  const [returnText, setReturnText] = useState("");
   const [showIt, setShowIt] = useState(false);
 
   function register() {
     if (!usuario.name.trim() || !usuario.email.trim() || !usuario.password.trim()) {
-      setShowIt(true)
-      setReturnText("Certeza que preencheu tudo? (ง︡'-'︠)ง")
+      setShowIt(true);
+      setReturnText("Certeza que preencheu tudo? (ง︡'-'︠)ง");
     } else {
-      verify(usuario, (empty) => {
-        if (empty == true) {
-          saveUser(usuario, (userID) => {
+      verify(usuario, notExists => {
+        if (!!notExists) {
+          saveUser(usuario, userID => {
+            // se conseguimos salvar o usuário com sucesso
+            // podemos registra-lo no AuthContext para uso futuro
+            // em outras telas
+            login({ ...usuario, id: userID });
+
+            // depois disso podemos limpar o usuário do formulário
             setUsuario({ ...EMPTY_USR });
-            navigation.navigate('Inside', { screen: 'ShowUser', params: { userID } });
+
+            // e navegar para próxima tela...
+            navigation.navigate("Inside", { screen: "ShowUser", params: { userID } });
           });
         } else {
-          setShowIt(true)
-          setReturnText("E-mail já cadastrado 😳")
+          setShowIt(true);
+          setReturnText("E-mail já cadastrado 😳");
         }
-      })
+      });
     }
   }
 
-  function verify(usuario, onSuccess) {
+  function verify(usuario, onNotFound) {
     db.transaction(tx => {
-      tx.executeSql("SELECT * FROM usuarios  WHERE email = ?", [usuario.email], (_, rs) => {
+      tx.executeSql("SELECT * FROM usuarios WHERE email = ?", [usuario.email], (_, rs) => {
         if (rs.rows.length === 0) {
-          onSuccess(true);
+          onNotFound(true);
         } else {
-          onSuccess(false);
+          onNotFound(false);
         }
       });
     });
@@ -54,14 +68,18 @@ export default function RegisterScreen({ navigation }) {
 
   function saveUser(usuario, onSuccessSaved) {
     db.transaction(tx => {
-      tx.executeSql("INSERT INTO usuarios (name, email, eng, sex, password) VALUES(?, ?, ?, ?, ?)", [usuario.name, usuario.email, usuario.eng, usuario.sex, usuario.password], (_, rs) => {
-        console.log(`Usuário salvo com o ID: ${rs.insertId}`);
-        onSuccessSaved(rs.insertId);
-      });
+      tx.executeSql(
+        "INSERT INTO usuarios (name, email, eng, sex, password) VALUES(?, ?, ?, ?, ?)",
+        [usuario.name, usuario.email, usuario.eng, usuario.sex, usuario.password],
+        (_, rs) => {
+          console.log(`Usuário salvo com o ID: ${rs.insertId}`);
+          onSuccessSaved(rs.insertId);
+        }
+      );
     });
   }
 
-  navigation.addListener('focus', () => {
+  navigation.addListener("focus", () => {
     setShowIt(false);
   });
 
@@ -82,6 +100,7 @@ export default function RegisterScreen({ navigation }) {
         <TextInput
           mode="outlined"
           placeholder="example@example.com"
+          autoCapitalize="none"
           activeOutlineColor="navy"
           keyboardType="email-address"
           value={usuario.email.trim()}
@@ -93,8 +112,7 @@ export default function RegisterScreen({ navigation }) {
           style={{ height: 50, width: 150 }}
           selectedValue={usuario.eng}
           onValueChange={eng => setUsuario({ ...usuario, eng })}
-          style={styles.input}
-        >
+          style={styles.input}>
           <Picker.Item label="Eng. Computação" value="Eng. Computação" />
           <Picker.Item label="Eng. Mecânica" value="Eng. Mecânica" />
           <Picker.Item label="Eng. Elétrica" value="Eng. Elétrica" />
@@ -106,8 +124,7 @@ export default function RegisterScreen({ navigation }) {
           style={{ height: 50, width: 150 }}
           selectedValue={usuario.sex}
           onValueChange={sex => setUsuario({ ...usuario, sex })}
-          style={styles.input}
-        >
+          style={styles.input}>
           <Picker.Item label="Masculino" value="Masculino" />
           <Picker.Item label="Feminino" value="Feminino" />
           <Picker.Item label="Outro" value="Outro" />
@@ -123,13 +140,13 @@ export default function RegisterScreen({ navigation }) {
           style={styles.input}
         />
         {!!showIt ? <Text style={styles.alertText}>{returnText}</Text> : null}
-        <Button style={styles.button} mode="contained" color="navy"
-          onPress={() => register()}
-        >CADASTRAR</Button>
+        <Button style={styles.button} mode="contained" color="navy" onPress={() => register()}>
+          CADASTRAR
+        </Button>
         <Text style={styles.infoText}> Já tem conta com a gente? ツ </Text>
-        <Button style={styles.button} mode="contained" color="gray"
-          onPress={() => navigation.navigate('Login')}
-        >ACESSE!</Button>
+        <Button style={styles.button} mode="contained" color="gray" onPress={() => navigation.navigate("Login")}>
+          ACESSE!
+        </Button>
       </ScrollView>
     </View>
   );
@@ -138,30 +155,30 @@ export default function RegisterScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   input: {
     height: 45,
     fontSize: 16,
     margin: 5,
     lineHeight: 45,
-    marginBottom: 10
+    marginBottom: 10,
   },
   text: {
     marginTop: 30,
     marginBottom: 50,
     fontSize: 20,
-    fontFamily: 'sans-serif-light',
-    color: 'navy',
-    alignSelf: 'center'
+    fontFamily: "sans-serif-light",
+    color: "navy",
+    alignSelf: "center",
   },
   inputText: {
     fontSize: 14,
-    marginLeft: 5
+    marginLeft: 5,
   },
   button: {
     marginTop: 20,
-    width: '80%',
+    width: "80%",
     height: 45,
     alignSelf: "center",
     justifyContent: "center",
@@ -169,14 +186,14 @@ const styles = StyleSheet.create({
   infoText: {
     marginTop: 20,
     fontSize: 16,
-    fontFamily: 'sans-serif-light',
-    color: 'black',
-    alignSelf: 'center'
+    fontFamily: "sans-serif-light",
+    color: "black",
+    alignSelf: "center",
   },
   alertText: {
-    alignSelf: 'center',
-    color: 'crimson',
-    fontWeight: 'bold',
-    fontSize: 14
-  }
+    alignSelf: "center",
+    color: "crimson",
+    fontWeight: "bold",
+    fontSize: 14,
+  },
 });

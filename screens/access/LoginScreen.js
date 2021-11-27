@@ -1,34 +1,50 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { TextInput, Button } from 'react-native-paper';
+import React, { useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { TextInput, Button } from "react-native-paper";
+
+import openDB from "../../db";
+
+import { useAuth } from "../../context/AuthContext";
 
 const EMPTY_USR = {
   email: "",
-  password: ""
+  password: "",
 };
-
-import openDB from "../../db";
 
 const db = openDB();
 
 export default function LoginScreen({ navigation }) {
+  // resgatando do AuthContext a função que "recebe"
+  // o usuário logado para depois "divulgar" a toda
+  // a aplicação
+  const { login } = useAuth();
 
   const [usuario, setUsuario] = useState({ ...EMPTY_USR });
-  const [returnText, setReturnText] = useState('');
+  const [returnText, setReturnText] = useState("");
   const [showIt, setShowIt] = useState(false);
 
-  function login() {
-
+  function testLogin() {
     if (!usuario.email.trim() || !usuario.password.trim()) {
-      setShowIt(true)
-      setReturnText("Certeza que preencheu tudo? (ง︡'-'︠)ง")
+      setShowIt(true);
+      setReturnText("Certeza que preencheu tudo? (ง︡'-'︠)ง");
     } else {
-      verify(usuario, (userID) => {
-        if (userID === null) {
-          setShowIt(true)
-          setReturnText("Dados não cadastrados 😳")
+      verify(usuario, userData => {
+        if (!userData) {
+          setShowIt(true);
+          setReturnText("Dados não cadastrados 😳");
         } else {
-          navigation.navigate('Inside', { screen: 'ShowUser', params: { userID } });
+          // se conseguimos encontrar o usuário com sucesso
+          // podemos registra-lo no AuthContext para uso futuro
+          // em outras telas
+          login(userData);
+
+          // e navegar para próxima tela...
+          navigation.navigate("Inside", {
+            screen: "ShowUser",
+            params: {
+              userID: userData.id,
+            },
+          });
         }
       });
     }
@@ -36,18 +52,23 @@ export default function LoginScreen({ navigation }) {
 
   function verify(usuario, onSuccess) {
     db.transaction(tx => {
-      tx.executeSql("SELECT * FROM usuarios  WHERE email = ? AND password = ?", [usuario.email, usuario.password], (_, rs) => {
-        if (rs.rows.length === 0) {
-          onSuccess(null);
-        } else {
-          console.log(`Usuário ID ${rs.rows._array[0].id} logado.`);
-          onSuccess(rs.rows._array[0].id);
+      tx.executeSql(
+        "SELECT * FROM usuarios  WHERE email = ? AND password = ?",
+        [usuario.email, usuario.password],
+        (_, rs) => {
+          if (rs.rows.length === 0) {
+            onSuccess(null);
+          } else {
+            console.log(`Usuário ID ${rs.rows._array[0].id} logado.`);
+            // melhor passar todos os dados do usuário, não apenas o ID
+            onSuccess(rs.rows._array[0]);
+          }
         }
-      });
+      );
     });
-  } 
+  }
 
-  navigation.addListener('focus', () => {
+  navigation.addListener("focus", () => {
     setShowIt(false);
   });
 
@@ -58,6 +79,7 @@ export default function LoginScreen({ navigation }) {
       <TextInput
         mode="outlined"
         placeholder="example@example.com"
+        autoCapitalize="none"
         activeOutlineColor="navy"
         keyboardType="email-address"
         value={usuario.email.trim()}
@@ -75,13 +97,13 @@ export default function LoginScreen({ navigation }) {
         style={styles.input}
       />
       {!!showIt ? <Text style={styles.alertText}>{returnText}</Text> : null}
-      <Button style={styles.button} mode="contained" color="navy"
-        onPress={() => login()}
-      >ACESSAR</Button>
+      <Button style={styles.button} mode="contained" color="navy" onPress={() => testLogin()}>
+        ACESSAR
+      </Button>
       <Text style={styles.infoText}> Lembrou que não tem cadastro? ツ </Text>
-      <Button style={styles.button} mode="contained" color="gray"
-        onPress={() => navigation.navigate('Register')}
-      >REGISTRE-SE!</Button>
+      <Button style={styles.button} mode="contained" color="gray" onPress={() => navigation.navigate("Register")}>
+        REGISTRE-SE!
+      </Button>
     </View>
   );
 }
@@ -96,19 +118,19 @@ const styles = StyleSheet.create({
     fontSize: 18,
     margin: 5,
     lineHeight: 45,
-    marginBottom: 10
+    marginBottom: 10,
   },
   text: {
     marginTop: 30,
     marginBottom: 150,
     fontSize: 20,
-    fontFamily: 'sans-serif-light',
-    color: 'navy',
-    alignSelf: 'center'
+    fontFamily: "sans-serif-light",
+    color: "navy",
+    alignSelf: "center",
   },
   inputText: {
     fontSize: 14,
-    marginLeft: 5
+    marginLeft: 5,
   },
   button: {
     marginTop: 20,
@@ -120,14 +142,14 @@ const styles = StyleSheet.create({
   infoText: {
     marginTop: 20,
     fontSize: 16,
-    fontFamily: 'sans-serif-light',
-    color: 'black',
-    alignSelf: 'center'
+    fontFamily: "sans-serif-light",
+    color: "black",
+    alignSelf: "center",
   },
   alertText: {
-    alignSelf: 'center',
-    color: 'crimson',
-    fontWeight: 'bold',
-    fontSize: 14
-  }
+    alignSelf: "center",
+    color: "crimson",
+    fontWeight: "bold",
+    fontSize: 14,
+  },
 });

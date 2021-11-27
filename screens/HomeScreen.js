@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ActivityIndicator, ScrollView, Text } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, ActivityIndicator, ScrollView, Text } from "react-native";
 
-import openDB from "../../db";
+import openDB from "../db";
+
+import { useUsuario } from "../context/UsuarioContext";
 
 const db = openDB();
 
@@ -24,15 +26,19 @@ function ReturnData({ usuario }) {
   );
 }
 
-export default function ShowUser({ route }) {
+export default function ShowUser() {
+  // agora que temos o UsuarioContext podemos
+  // recuperar o usuário logado deste local
+  // e não precisar mais nos preocupar com recebe-lo
+  // de um parametro vindo da navegação
+  const { usuario } = useUsuario();
 
-  const { userID } = route.params;
   const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
 
   function recoverData() {
     db.transaction(tx => {
-      tx.executeSql("SELECT * FROM usuarios WHERE id = ?", [userID], (_, rs) => {
+      tx.executeSql("SELECT * FROM usuarios WHERE id = ?", [usuario.id], (_, rs) => {
         setUsuarios(rs.rows._array);
         setLoading(false);
       });
@@ -94,5 +100,5 @@ const styles = StyleSheet.create({
   },
   usuarioTextLabel: {
     fontWeight: "bold",
-  }
+  },
 });
