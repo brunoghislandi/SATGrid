@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { Button, Text, TextInput, Switch } from "react-native-paper";
 
@@ -48,38 +48,41 @@ export default function EditSemester() {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
-  const subjectsMonday = subjects.monday.subjects;
-  const subjectsTuesday = subjects.tuesday.subjects;
-  const subjectsWednesday = subjects.wednesday.subjects;
-  const subjectsThursday = subjects.thursday.subjects;
-  const subjectsFriday = subjects.friday.subjects;
+  const [subjectsMonday, setMonday]  = useState(subjects.monday.subjects);
+  const [subjectsTuesday, setTuesday]  = useState(subjects.tuesday.subjects);
+  const [subjectsWednesday, setWednesday]  = useState(subjects.wednesday.subjects);
+  const [subjectsThursday, setThursday]  = useState(subjects.thursday.subjects);
+  const [subjectsFriday, setFriday]  = useState(subjects.friday.subjects);
 
-/* Validações ainda não implementadas
-async function valida(arr,diaSemana){
+  async function valida(arr,diaSemana,func){
     var newArr = [];
     await db.transaction(tx => {
-      console.log("aqui")
       for(i=0;i<(arr.length-1);i++){
+        /* Checa se alguma matéria já foi feita em algum semestre finalizado */
+        tx.executeSql(`SELECT * FROM semestres WHERE usuario_id = ? AND ` + diaSemana + ` = ? AND finalizarsemestre is NOT NULL`, [usuario.id, arr[i].nome, ], (_, result) => {
+          console.log(result.rows.length)
+          if (result.rows.length > 0) {
 
-        /* Checa se a matéria tem pré-requisito 
-        if(arr[i].req != ""){
+            /* Checa se a matéria tem pré-requisito */
+            if(arr[i].req != ""){
 
-          /* Checa se já foi feito algum semestre com a matéria que é requisito 
-          let req = arr[i].req;
-          let cont = i;
-          tx.executeSql(`SELECT * FROM semestres WHERE usuario_id = ? AND ` + diaSemana + ` = ?`, [1, req], (_, rs) => {
-            if (rs.rows.length > 0) {
-              newArr.push(arr[cont])
+              /* Checa se já foi feito algum semestre com a matéria que é requisito */
+              let req = arr[i].req;
+              tx.executeSql(`SELECT * FROM semestres WHERE usuario_id = ? AND ` + diaSemana + ` = ?`, [usuario.id, req], (_, rs) => {
+                if (rs.rows.length > 0) {
+                  newArr.push(arr[i])
+                }
+              });
+            }else{
+              newArr.push(arr[i])
             }
-          });
-        }else{
-         /* newArr.push(arr[i])
-        }
+          }
+        });
       }
+      func(newArr)
     });
-    console.log(newArr)
   }
-*/
+
 
   const [semestre, setSemester] = useState("");
   const [mon, setmon] = useState(subjects.monday.subjects[0].name);
@@ -121,6 +124,15 @@ async function valida(arr,diaSemana){
       });
     });
   }
+
+  useEffect(() => {
+    valida(subjects.monday.subjects, "materia1", setMonday)
+    valida(subjects.tuesday.subjects, "materia2", setTuesday)
+    valida(subjects.wednesday.subjects, "materia3",setWednesday)
+    valida(subjects.thursday.subjects, "materia4", setThursday)
+    valida(subjects.friday.subjects, "materia5", setFriday)
+  }, []);
+
   return (
     <>
       <TextInput 
