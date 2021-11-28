@@ -29,7 +29,7 @@ function SelectSubjects({ subjectsOfWeek, dayOfWeek, func }) {
         }}
         >
         {subjectsOfWeek.map(subject => {
-          return <Picker.Item label={subject.name} value={subject.name} />;
+          return <Picker.Item label={subject.name} value={subject.id} />;
         })}
       </Picker>
     </View>
@@ -121,7 +121,6 @@ async function valida(arr,diaSemana){
       });
     });
   }
-
   return (
     <>
       <TextInput 

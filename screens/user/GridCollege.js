@@ -5,7 +5,6 @@ import openDB from "../../db";
 
 import { useUsuario } from "../../context/UsuarioContext";
 
-
 const db = openDB();
 
 export default function GridCollege() {
@@ -14,6 +13,7 @@ export default function GridCollege() {
   // e não precisar mais nos preocupar com recebe-lo
   // de um parametro vindo da navegação
   const { usuario } = useUsuario();
+  const [semestres, setSemestres] = useState("");
   const [showIt, setShowIt] = useState(false);
   const [refreshing, setRefreshing] = useState(true);
 
