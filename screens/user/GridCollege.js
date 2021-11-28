@@ -1,9 +1,12 @@
-import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
-import { Button, Text, FlatList } from "react-native-paper";
+import React, { useState, useEffect } from "react";
+import { View, FlatList, StyleSheet, Text, StatusBar, SafeAreaView, RefreshControl } from "react-native";
 
+import openDB from "../../db";
 
 import { useUsuario } from "../../context/UsuarioContext";
+
+
+const db = openDB();
 
 export default function GridCollege() {
   // agora que temos o UsuarioContext podemos
@@ -12,68 +15,94 @@ export default function GridCollege() {
   // de um parametro vindo da navegação
   const { usuario } = useUsuario();
   const [showIt, setShowIt] = useState(false);
+  const [refreshing, setRefreshing] = useState(true);
 
+  const [items, setItems] = useState([]);
+  const [empty, setEmpty] = useState([]);
 
-
-  const EMPTY_SEMESTER = {
-    usuario_id: "",
-    name: "",
-    materia1: "",
-    materia2: "",
-    materia3: "",
-    materia4: "",
-    materia5: "",
-    finalizarsemestre: "",
-    semestresatual: "",
-  };
-
-  const [semester, setSemester] = useState({ ...EMPTY_SEMESTER });
-
-
-  const returnText = "pro player de react";
-
-
-  function recoverData() {
-    db.transaction(tx => {
-      tx.executeSql("SELECT * FROM semestres WHERE usuario_id = ?", [usuario.id], (_, rs) => {
-        setSemester(rs.rows._array);
-      });
+  const loadData = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        'SELECT * FROM semestres WHERE usuario_id = ?',
+        [usuario.id],
+        (tx, results) => {
+          setRefreshing(false);
+          var temp = [];
+          for (let i = 0; i < results.rows.length; ++i)
+            temp.push(results.rows.item(i));
+          setItems(temp);
+ 
+          if (results.rows.length >= 1) {
+            setEmpty(false);
+          } else {
+            setEmpty(true)
+          }
+ 
+        }
+      );
+ 
     });
   }
 
-  console.log('dsad')
-  console.log(semester);
+  useEffect(() => {
+    loadData()
+  }, []);
 
+  const listViewItemSeparator = () => {
+    return (
+      <View
+        style={{
+          height: 1,
+          width: '100%',
+          backgroundColor: '#000'
+        }}
+      />
+    );
+  };
+ 
+  const emptyMSG = (status) => {
+    return (
+      <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+ 
+        <Text style={{ fontSize: 25, textAlign: 'center' }}>
+          No Record Inserted Database is Empty...
+          </Text>
+ 
+      </View>
+    );
+  }
 
   return (
 
-    <>
-      {/* <FlatList
-        renderItem={({ semester }) => (
-          <View style={styles.container}>
-            <Text>{semester.name}</Text>
-            <Text>{semester.materia1}</Text>
-            <Text>{semester.materia2}</Text>
-            <Text>{semester.materia3}</Text>
-            <Text>{semester.materia4}</Text>
-            <Text>{semester.materia5}</Text>
-            <Text>{semester.finalizarsemestre}</Text>
-          </View>
-        )}
-      >
-
-      </FlatList> */}
-
-      {/* <View style={styles.basic}>
-        <Text>ID do Usuario: {usuario.id}</Text>
-        <Text>Nome do Usuário: {usuario.name}</Text>
-        <Button style={styles.button} mode="contained" color="green" onPress={() => setShowIt(!showIt)}>
-          aperta ai
-        </Button>
-        {!!showIt ? <Text style={{ marginTop: 10, fontSize: 16 }}>{returnText}</Text> : null}
-      </View> */}
-    </>
-
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
+        {empty ? emptyMSG(empty) :
+ 
+          <FlatList
+            data={items}
+            ItemSeparatorComponent={listViewItemSeparator}
+            keyExtractor={(item, index) => index.toString()}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={loadData} />
+            }
+            renderItem={({ item }) =>
+              <View key={item.student_id} style={{ padding: 20 }}>
+ 
+                <Text style={styles.itemsStyle}> Semestre: {item.name} </Text>
+                <Text style={styles.itemsStyle}> Segunda: {item.materia1} </Text>
+                <Text style={styles.itemsStyle}> Terça: {item.materia2} </Text>
+                <Text style={styles.itemsStyle}> Quarta: {item.materia3} </Text>
+                <Text style={styles.itemsStyle}> Quinta: {item.materia4} </Text>
+                <Text style={styles.itemsStyle}> Sexta: {item.materia5} </Text>
+                <Text style={styles.itemsStyle}> Semestre atual: {item.semestresatual > 0 ? "Sim" : "Não"} </Text>
+                <Text style={styles.itemsStyle}> Semestre finalizado: {item.finalizarsemestre} </Text>
+ 
+              </View>
+            }
+          />
+        }
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -90,4 +119,49 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  container: {
+    flex: 1,
+    marginTop: StatusBar.currentHeight || 0,
+  },
+  item: {
+    backgroundColor: '#f9c2ff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  mainContainer: {
+    flex: 1,
+    alignItems: 'center',
+    padding: 10,
+  },
+ 
+  touchableOpacity: {
+    backgroundColor: '#0091EA',
+    alignItems: 'center',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%'
+  },
+ 
+  touchableOpacityText: {
+    color: '#FFFFFF',
+    fontSize: 23,
+    textAlign: 'center',
+    padding: 8
+  },
+ 
+  textInputStyle: {
+    height: 45,
+    width: '90%',
+    textAlign: 'center',
+    borderWidth: 1,
+    borderColor: '#00B8D4',
+    borderRadius: 7,
+    marginTop: 15,
+  },
+ 
+  itemsStyle: {
+    color: '#000'
+  }
 });
