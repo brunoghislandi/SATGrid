@@ -134,7 +134,6 @@ export default function EditSemester({ navigation }) {
     <>
       <ScrollView>
         <View style={styles.container}>
-
           <TextInput
             mode="outlined"
             label="Ano / Semestre"

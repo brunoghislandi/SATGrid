@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   epmtyAlert: {
     color: "navy",
     fontWeight: "700",
-    fontSize: 17,
+    fontSize: 18,
     textAlign: "center",
     backgroundColor: "#FFF",
     borderRadius: 7,
