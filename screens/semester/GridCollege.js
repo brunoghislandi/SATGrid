@@ -7,7 +7,7 @@ import { useUsuario } from "../../context/UsuarioContext";
 
 const db = openDB();
 
-export default function GridCollege() {
+export default function GridCollege({navigation}) {
   const { usuario } = useUsuario();
   const [refreshing, setRefreshing] = useState(true);
 
@@ -39,6 +39,10 @@ export default function GridCollege() {
     loadData()
   }, []);
 
+  navigation.addListener("focus", () => {
+    loadData()
+  });
+
   const emptyMSG = (status) => {
     return (
       <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
@@ -51,8 +55,8 @@ export default function GridCollege() {
 
   return (
 
-    <SafeAreaView >
-      <View >
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         {empty ? emptyMSG(empty) :
           <FlatList
             data={items}
