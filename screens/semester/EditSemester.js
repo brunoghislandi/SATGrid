@@ -20,6 +20,7 @@ function SelectSubjects({ subjectsOfWeek, dayOfWeek, func }) {
       <Text style={styles.dayOfWeek}>{dayOfWeek}</Text>
       <Picker 
         selectedValue={selectedSubject} 
+        style={styles.inputDropdown}
         onValueChange={(itemValue, itemIndex) => {
           setSelectedSubject(itemValue)
           try{
@@ -116,7 +117,7 @@ export default function EditSemester() {
           );
         } else {
           setShowIt(true);
-          setReturnText("Semestre já existe.");
+          setReturnText("Semestre já existente.");
         }
       });
     });
@@ -132,15 +133,21 @@ export default function EditSemester() {
 
   return (
     <>
-      <TextInput 
-        style={styles.inputSemesterName} 
-        placeholder="Digite o semestre" 
-        label="Digite o semestre"
+    <View style={styles.container}>
+    <TextInput
+        mode="outlined"
+        label="Título do semestre"
+        placeholder="2022/1"
+        autoCapitalize="none"
+        activeOutlineColor="navy"
         value={semestre}
-        onChangeText={e => setSemester(e)}></TextInput>
+        style={styles.inputSemesterName}
+        onChangeText={e => setSemester(e)}
+      />
 
       <SelectSubjects 
           dayOfWeek="Segunda-feira"
+          label="Segunda-feira"
           subjectsOfWeek={subjectsMonday} 
           func={setmon}
       />
@@ -166,52 +173,71 @@ export default function EditSemester() {
       />
 
       <View style={styles.currentSemester}>
-        <Text>Semestre Atual?</Text>
+        <Text style={{fontSize: 16, marginRight: 5}}>Semestre Atual</Text>
         <Switch
-          trackColor={{ false: "#767577", true: "#81b0ff" }}
-          thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+          trackColor={{ false: "#767577", true: "green" }}
+          thumbColor={isEnabled ? "navy" : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitch}
           value={isEnabled}
         />
       </View>
-      {!!showIt ? <Text style={styles.alertText}>{returnText}</Text> : null}
       <Button style={styles.btnSave} mode="contained" color="green" onPress={() => save()}>
         Salvar Semestre
       </Button>
+      {!!showIt ? <Text style={styles.alertText}>{returnText}</Text> : null}
+      </View>
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  container:{
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+    backgroundColor: "#fff",
+  },
   currentSemester: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 20,
+    marginBottom: 10,
   },
   inputSemesterName: {
     height: 50,
-    fontSize: 18,
-    margin: 5,
+    fontSize: 13,
     lineHeight: 45,
-    marginBottom: 10,
+    marginBottom: 50,
   },
   btnSave: {
     marginTop: 10,
-    width: "50%",
+    width: "100%",
     height: 40,
     alignSelf: "center",
     justifyContent: "center",
   },
 
   dayOfWeek: {
-    fontSize: 18,
-    marginLeft: 10,
+    fontSize: 10,
+    textTransform: "uppercase",
+    color: 'gray',
+    marginTop: 10,
   },
   alertText: {
     alignSelf: "center",
     color: "crimson",
     fontWeight: "bold",
-    fontSize: 14,
+    fontSize: 13,
+    marginTop: 20
+  },
+  inputDropdown: {
+    backgroundColor: "#f6f6f6",
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 5,
+    marginTop: 5,
+
   },
 });

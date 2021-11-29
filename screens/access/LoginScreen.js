@@ -70,9 +70,9 @@ export default function LoginScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Bem vindo de volta, Aluno!</Text>
-      <Text style={styles.inputText}>Digite seu e-mail abaixo:</Text>
       <TextInput
         mode="outlined"
+        label="E-mail"
         placeholder="example@example.com"
         autoCapitalize="none"
         activeOutlineColor="navy"
@@ -81,9 +81,9 @@ export default function LoginScreen({ navigation }) {
         onChangeText={email => setUsuario({ ...usuario, email })}
         style={styles.input}
       />
-      <Text style={styles.inputText}>Digite sua senha abaixo:</Text>
       <TextInput
         mode="outlined"
+        label="Senha"
         placeholder="••••••••••••••••••"
         activeOutlineColor="navy"
         secureTextEntry={true}
@@ -91,14 +91,13 @@ export default function LoginScreen({ navigation }) {
         onChangeText={password => setUsuario({ ...usuario, password })}
         style={styles.input}
       />
-      {!!showIt ? <Text style={styles.alertText}>{returnText}</Text> : null}
-      <Button style={styles.button} mode="contained" color="navy" onPress={() => testLogin()}>
+      <Button style={styles.button} mode="contained" color="green" onPress={() => testLogin()}>
         ACESSAR
       </Button>
-      <Text style={styles.infoText}> Lembrou que não tem cadastro? ツ </Text>
-      <Button style={styles.button} mode="contained" color="gray" onPress={() => navigation.navigate("Register")}>
-        REGISTRE-SE!
-      </Button>
+      <Text style={styles.infoText}>Ainda não tem cadastro? <Text style={{color: "navy"}} onPress={() => navigation.navigate("Register")}>
+        Registre-se aqui!
+      </Text></Text>
+      {!!showIt ? <Text style={styles.alertText}>{returnText}</Text> : null}
     </View>
   );
 }
@@ -106,39 +105,40 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 30,
+    justifyContent: 'center',
     backgroundColor: "#fff",
   },
   input: {
     height: 50,
-    fontSize: 18,
-    margin: 5,
+    fontSize: 13,
     lineHeight: 45,
     marginBottom: 10,
   },
   text: {
     marginTop: 30,
-    marginBottom: 150,
+    marginBottom: 30,
     fontSize: 20,
     fontFamily: "sans-serif-light",
     color: "navy",
+    fontWeight: '700',
     alignSelf: "center",
   },
   inputText: {
-    fontSize: 14,
-    marginLeft: 5,
+    fontSize: 13,
   },
   button: {
-    marginTop: 20,
-    width: "80%",
+    marginTop: 10,
+    width: "100%",
     height: 45,
     alignSelf: "center",
     justifyContent: "center",
   },
   infoText: {
     marginTop: 20,
-    fontSize: 16,
+    fontSize: 13,
     fontFamily: "sans-serif-light",
-    color: "black",
+    color: "gray",
     alignSelf: "center",
   },
   alertText: {
@@ -146,5 +146,6 @@ const styles = StyleSheet.create({
     color: "crimson",
     fontWeight: "bold",
     fontSize: 14,
+    marginTop: 20
   },
 });

@@ -28,7 +28,7 @@ function InitialScreen({ navigation }) {
         ACESSAR
       </Button>
       <Button style={styles.button} mode="contained" color="navy" onPress={() => navigation.navigate("Register")}>
-        REGISTRE-SE!
+        REGISTRE-SE
       </Button>
       <StatusBar barStyle="light-content" backgroundColor="navy" translucent={true} />
     </View>
@@ -44,8 +44,8 @@ function InsideApp() {
         },
         headerTintColor: "#fff",
       }}>
-      <Drawer.Screen name="Editar Semestre" component={EditSemester} options={{ title: "Crie seu Semestre" }} />
-      <Drawer.Screen name="Grade Completa" component={GridCollege} options={{ title: "Suas matérias" }} />
+      <Drawer.Screen name="Grade Completa" component={GridCollege} options={{ title: "Minhas matérias" }} />
+      <Drawer.Screen name="Editar Semestre" component={EditSemester} options={{ title: "Criar semestre" }} />
     </Drawer.Navigator>
   );
 }
@@ -66,8 +66,8 @@ export default function App() {
               headerTintColor: "#fff",
             }}>
             <Stack.Screen name="Home" component={InitialScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="Login" component={LoginScreen} options={{ title: "ACESSO" }} />
-            <Stack.Screen name="Register" component={RegisterScreen} options={{ title: "CADASTRO" }} />
+            <Stack.Screen name="Login" component={LoginScreen} options={{ title: "Login" }} style={{alignItems: "center"}}/>
+            <Stack.Screen name="Register" component={RegisterScreen} options={{ title: "Cadastro" }} />
             <Stack.Screen name="Inside" component={InsideApp} options={{ headerShown: false }} />
           </Stack.Navigator>
         </NavigationContainer>
@@ -94,6 +94,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "sans-serif-light",
     color: "navy",
-    marginBottom: 250,
+    marginBottom: 50,
   },
 });

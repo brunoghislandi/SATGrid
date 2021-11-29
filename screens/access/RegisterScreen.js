@@ -48,7 +48,7 @@ export default function RegisterScreen({ navigation }) {
           });
         } else {
           setShowIt(true);
-          setReturnText("E-mail já cadastrado 😳");
+          setReturnText("E-mail já cadastrado");
         }
       });
     }
@@ -85,20 +85,20 @@ export default function RegisterScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 25 }}>
-        <Text style={styles.text}>Opa, vamo nessa?</Text>
-        <Text style={styles.inputText}>Nome</Text>
+      {/* <ScrollView contentContainerStyle={{ paddingBottom: 25 }}> */}
+        <Text style={styles.text}>Opa, vamos nessa?</Text>
         <TextInput
           mode="outlined"
+          label="Nome"
           placeholder="Arnold Schwarzenegger"
           activeOutlineColor="navy"
           value={usuario.name}
           onChangeText={name => setUsuario({ ...usuario, name })}
           style={styles.input}
         />
-        <Text style={styles.inputText}>E-mail</Text>
         <TextInput
           mode="outlined"
+          label="E-mail"
           placeholder="example@example.com"
           autoCapitalize="none"
           activeOutlineColor="navy"
@@ -107,31 +107,9 @@ export default function RegisterScreen({ navigation }) {
           onChangeText={email => setUsuario({ ...usuario, email })}
           style={styles.input}
         />
-        <Text style={styles.inputText}>Qual sua Engenharia?</Text>
-        <Picker
-          style={{ height: 50, width: 150 }}
-          selectedValue={usuario.eng}
-          onValueChange={eng => setUsuario({ ...usuario, eng })}
-          style={styles.input}>
-          <Picker.Item label="Eng. Computação" value="Eng. Computação" />
-          <Picker.Item label="Eng. Mecânica" value="Eng. Mecânica" />
-          <Picker.Item label="Eng. Elétrica" value="Eng. Elétrica" />
-          <Picker.Item label="Eng. Mecatrônica" value="Eng. Mecatrônica" />
-          <Picker.Item label="Eng. Minas" value="Eng. Minas" />
-        </Picker>
-        <Text style={styles.inputText}>Sexo</Text>
-        <Picker
-          style={{ height: 50, width: 150 }}
-          selectedValue={usuario.sex}
-          onValueChange={sex => setUsuario({ ...usuario, sex })}
-          style={styles.input}>
-          <Picker.Item label="Masculino" value="Masculino" />
-          <Picker.Item label="Feminino" value="Feminino" />
-          <Picker.Item label="Outro" value="Outro" />
-        </Picker>
-        <Text style={styles.inputText}>Senha</Text>
         <TextInput
           mode="outlined"
+          label="Senha"
           placeholder="••••••••••••••••••"
           activeOutlineColor="navy"
           secureTextEntry={true}
@@ -139,15 +117,36 @@ export default function RegisterScreen({ navigation }) {
           onChangeText={password => setUsuario({ ...usuario, password })}
           style={styles.input}
         />
+        <Text style={styles.inputText}>Selecione sua engenharia</Text>
+        <Picker
+          style={{ height: 50}}
+          selectedValue={usuario.eng}
+          onValueChange={eng => setUsuario({ ...usuario, eng })}
+          style={styles.inputDropdown}>
+          <Picker.Item style={styles.pickeritem} label="Eng. Computação" value="Eng. Computação" />
+          <Picker.Item style={styles.pickeritem} label="Eng. Mecânica" value="Eng. Mecânica" />
+          <Picker.Item style={styles.pickeritem} label="Eng. Elétrica" value="Eng. Elétrica" />
+          <Picker.Item style={styles.pickeritem} label="Eng. Mecatrônica" value="Eng. Mecatrônica" />
+          <Picker.Item style={styles.pickeritem} label="Eng. Minas" value="Eng. Minas" />
+        </Picker>
+        <Text style={styles.inputText}>Sexo</Text>
+        <Picker
+          style={{ height: 50 }}
+          selectedValue={usuario.sex}
+          onValueChange={sex => setUsuario({ ...usuario, sex })}
+          style={styles.inputDropdown}>
+          <Picker.Item style={styles.pickeritem} label="Masculino" value="Masculino" />
+          <Picker.Item style={styles.pickeritem} label="Feminino" value="Feminino" />
+          <Picker.Item style={styles.pickeritem} label="Outro" value="Outro" />
+        </Picker> 
         {!!showIt ? <Text style={styles.alertText}>{returnText}</Text> : null}
-        <Button style={styles.button} mode="contained" color="navy" onPress={() => register()}>
+        <Button style={styles.button} mode="contained" color="green" onPress={() => register()}>
           CADASTRAR
         </Button>
-        <Text style={styles.infoText}> Já tem conta com a gente? ツ </Text>
-        <Button style={styles.button} mode="contained" color="gray" onPress={() => navigation.navigate("Login")}>
-          ACESSE!
-        </Button>
-      </ScrollView>
+        <Text style={styles.infoText}> Já tem uma conta? <Text style={{color: "navy"}} onPress={() => navigation.navigate("Login")}>
+        Acesse aqui!
+      </Text></Text>
+      {/* </ScrollView> */}
     </View>
   );
 }
@@ -155,39 +154,54 @@ export default function RegisterScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    padding: 30,
     backgroundColor: "#fff",
   },
   input: {
-    height: 45,
-    fontSize: 16,
-    margin: 5,
+    height: 50,
+    fontSize: 13,
     lineHeight: 45,
     marginBottom: 10,
   },
+  inputDropdown: {
+    backgroundColor: "#f6f6f6",
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 5,
+    marginTop: 5
+  },
   text: {
     marginTop: 30,
-    marginBottom: 50,
+    marginBottom: 30,
     fontSize: 20,
     fontFamily: "sans-serif-light",
     color: "navy",
+    fontWeight: '700',
     alignSelf: "center",
   },
   inputText: {
-    fontSize: 14,
-    marginLeft: 5,
+    fontSize: 10,
+    textTransform: "uppercase",
+    color: 'gray',
+    marginTop: 10,
+  },
+  pickeritem: {
+    margin: 20,
+    alignItems: 'center'
   },
   button: {
     marginTop: 20,
-    width: "80%",
+    width: "100%",
     height: 45,
     alignSelf: "center",
     justifyContent: "center",
   },
   infoText: {
     marginTop: 20,
-    fontSize: 16,
+    fontSize: 13,
     fontFamily: "sans-serif-light",
-    color: "black",
+    color: "gray",
     alignSelf: "center",
   },
   alertText: {

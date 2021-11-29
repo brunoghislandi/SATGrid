@@ -47,25 +47,12 @@ export default function GridCollege() {
   useEffect(() => {
     loadData()
   }, []);
-
-  const listViewItemSeparator = () => {
-    return (
-      <View
-        style={{
-          height: 1,
-          width: '100%',
-          backgroundColor: '#000'
-        }}
-      />
-    );
-  };
  
   const emptyMSG = (status) => {
     return (
       <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
- 
-        <Text style={{ fontSize: 25, textAlign: 'center' }}>
-          Nenhum semestre cadastrado ainda!
+        <Text style={{ fontSize: 13, textAlign: 'center' }}>
+          Nenhum semestre cadastrado!
           </Text>
  
       </View>
@@ -74,28 +61,26 @@ export default function GridCollege() {
 
   return (
 
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
+    <SafeAreaView >
+      <View >
         {empty ? emptyMSG(empty) :
- 
           <FlatList
             data={items}
-            ItemSeparatorComponent={listViewItemSeparator}
             keyExtractor={(item, index) => index.toString()}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={loadData} />
-            }
+            // refreshControl={
+            //   <RefreshControl refreshing={refreshing} onRefresh={loadData} />
+            // }
             renderItem={({ item }) =>
-              <View key={item.student_id} style={{ padding: 20 }}>
+              <View key={item.student_id} style={styles.container}>
  
-                <Text style={styles.itemsStyle}> Semestre: {item.name} </Text>
-                <Text style={styles.itemsStyle}> Segunda: {item.materia1} </Text>
-                <Text style={styles.itemsStyle}> Terça: {item.materia2} </Text>
-                <Text style={styles.itemsStyle}> Quarta: {item.materia3} </Text>
-                <Text style={styles.itemsStyle}> Quinta: {item.materia4} </Text>
-                <Text style={styles.itemsStyle}> Sexta: {item.materia5} </Text>
-                <Text style={styles.itemsStyle}> Semestre atual: {item.semestresatual > 0 ? "Sim" : "Não"} </Text>
-                <Text style={styles.itemsStyle}> Semestre finalizado: {item.finalizarsemestre} </Text>
+                <Text style={styles.semesterName}>{item.name}</Text>
+                <Text style={styles.itemsStyle}> Segunda: <Text style={styles.itemStyle}>{item.materia1}</Text> </Text>
+                <Text style={styles.itemsStyle}> Terça: <Text style={styles.itemStyle}>{item.materia2} </Text></Text>
+                <Text style={styles.itemsStyle}> Quarta: <Text style={styles.itemStyle}>{item.materia3} </Text></Text>
+                <Text style={styles.itemsStyle}> Quinta: <Text style={styles.itemStyle}>{item.materia4} </Text></Text>
+                <Text style={styles.itemsStyle}> Sexta: <Text style={styles.itemStyle}>{item.materia5} </Text></Text>
+                <Text style={styles.itemsStyle}> Semestre atual: <Text style={styles.itemStyle}>{item.semestresatual > 0 ? "Sim" : "Não"} </Text></Text>
+                {/* <Text style={styles.itemsStyle}> Semestre finalizado: {item.finalizarsemestre} </Text> */}
  
               </View>
             }
@@ -121,10 +106,24 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
+    padding: 10,
+    marginLeft: 15,
+    marginRight: 15,
+    marginTop: 15,
+    marginBottom: 2,
+    borderRadius: 7,
+    backgroundColor: "#FFF",
+    shadowColor: "gray",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
   },
   item: {
-    backgroundColor: '#f9c2ff',
+    backgroundColor: '#fff',
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
@@ -160,8 +159,20 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     marginTop: 15,
   },
- 
+  semesterName: {
+    color: "navy",
+    fontSize: 18,
+    textAlign: 'center',
+    fontWeight: "bold",
+    margin: 10
+  },
   itemsStyle: {
-    color: '#000'
-  }
+    color: 'green',
+    padding: 2,
+    fontWeight: '700',
+  },
+  itemStyle: {
+    color: 'gray',
+    fontWeight: '200',
+  },
 });
