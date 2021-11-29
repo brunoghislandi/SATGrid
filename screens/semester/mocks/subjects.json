@@ -182,12 +182,6 @@
         "req":""
       },
       {
-        "id": "1402043",
-        "name": "IoT",
-        "period": "2",
-        "req":""
-      },
-      {
         "id": "1403033",
         "name": "Programação e Estrutura de Dados",
         "period": "3",
@@ -262,6 +256,12 @@
         "name": "Sistemas Embarcados",
         "period": "6",
         "req":"Sistemas Eletronicos"
+      },
+      {
+        "id": "1402043",
+        "name": "IoT I",
+        "period": "2",
+        "req":""
       },
       {
         "id": "1406053",

@@ -29,7 +29,7 @@ function SelectSubjects({ subjectsOfWeek, dayOfWeek, func }) {
         }}
         >
         {subjectsOfWeek.map(subject => {
-          return <Picker.Item label={subject.name} value={subject.id} />;
+          return <Picker.Item label={subject.name} value={subject.name} />;
         })}
       </Picker>
     </View>
@@ -59,25 +59,22 @@ export default function EditSemester() {
     await db.transaction(tx => {
       for(i=0;i<(arr.length-1);i++){
         /* Checa se alguma matéria já foi feita em algum semestre finalizado */
-        tx.executeSql(`SELECT * FROM semestres WHERE usuario_id = ? AND ` + diaSemana + ` = ? AND finalizarsemestre is NOT NULL`, [usuario.id, arr[i].nome, ], (_, result) => {
-          console.log(result.rows.length)
-          if (result.rows.length > 0) {
+        
 
             /* Checa se a matéria tem pré-requisito */
             if(arr[i].req != ""){
-
               /* Checa se já foi feito algum semestre com a matéria que é requisito */
               let req = arr[i].req;
+              let cont = i;
               tx.executeSql(`SELECT * FROM semestres WHERE usuario_id = ? AND ` + diaSemana + ` = ?`, [usuario.id, req], (_, rs) => {
                 if (rs.rows.length > 0) {
-                  newArr.push(arr[i])
+                  newArr.push(arr[cont])
+                  
                 }
               });
             }else{
               newArr.push(arr[i])
             }
-          }
-        });
       }
       func(newArr)
     });
