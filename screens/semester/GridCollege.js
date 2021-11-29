@@ -46,8 +46,8 @@ export default function GridCollege({navigation}) {
   const emptyMSG = (status) => {
     return (
       <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
-        <Text style={{ fontSize: 13, textAlign: "center" }}>
-          Nenhum semestre cadastrado!
+        <Text style={styles.epmtyAlert}>
+          Opa! Parece que você ainda não cadastrou nenhum semestre ainda!
         </Text>
       </View>
     );
@@ -115,6 +115,15 @@ const styles = StyleSheet.create({
   },
   itemStyle: {
     color: "gray",
-    fontWeight: "200"
+  },
+  epmtyAlert: {
+    color: "navy",
+    fontWeight: "700",
+    fontSize: 17,
+    textAlign: "center",
+    backgroundColor: "#FFF",
+    borderRadius: 7,
+    padding: 20,
+    margin: 20
   }
 });
