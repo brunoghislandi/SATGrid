@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import { Button, Text, TextInput, Switch } from "react-native-paper";
 
 import { Picker } from "@react-native-picker/picker";
@@ -13,7 +13,7 @@ import { useUsuario } from "../../context/UsuarioContext";
 const db = openDB();
 
 function SelectSubjects({ subjectsOfWeek, dayOfWeek, func }) {
-  
+
   const [selectedSubject, setSelectedSubject] = useState();
   return (
     <View>
@@ -101,6 +101,7 @@ export default function EditSemester({ navigation }) {
             "INSERT INTO semestres (usuario_id, name, materia1, materia2, materia3, materia4, materia5, semestresatual) VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
             [usuario.id, semestre, mon, tue, wed, thu, fri, isEnabled],
             (_) => {
+              canIdoit();
               setShowIt(true);
               setReturnText("Semestre salvo com sucesso.");
             }
@@ -113,12 +114,16 @@ export default function EditSemester({ navigation }) {
     });
   }
 
-  useEffect(() => {
+  function canIdoit() {
     valida(subjects.monday.subjects, "materia1", setMonday)
     valida(subjects.tuesday.subjects, "materia2", setTuesday)
     valida(subjects.wednesday.subjects, "materia3", setWednesday)
     valida(subjects.thursday.subjects, "materia4", setThursday)
     valida(subjects.friday.subjects, "materia5", setFriday)
+  }
+
+  useEffect(() => {
+    canIdoit()
   }, []);
 
   navigation.addListener("focus", () => {
@@ -127,58 +132,61 @@ export default function EditSemester({ navigation }) {
 
   return (
     <>
-      <View style={styles.container}>
-        <TextInput
-          mode="outlined"
-          label="Ano / Semestre"
-          placeholder="2022/1"
-          autoCapitalize="none"
-          activeOutlineColor="navy"
-          value={semestre}
-          style={styles.inputSemesterName}
-          onChangeText={e => setSemester(e)}
-        />
-        <SelectSubjects
-          dayOfWeek="Segunda-feira"
-          label="Segunda-feira"
-          subjectsOfWeek={subjectsMonday}
-          func={setmon}
-        />
-        <SelectSubjects
-          dayOfWeek="Terça-feira"
-          subjectsOfWeek={subjectsTuesday}
-          func={settue}
-        />
-        <SelectSubjects
-          dayOfWeek="Quarta-feira"
-          subjectsOfWeek={subjectsWednesday}
-          func={setwed}
-        />
-        <SelectSubjects
-          dayOfWeek="Quinta-feira"
-          subjectsOfWeek={subjectsThursday}
-          func={setthu}
-        />
-        <SelectSubjects
-          dayOfWeek="Sexta-feira"
-          subjectsOfWeek={subjectsFriday}
-          func={setfri}
-        />
-        <View style={styles.currentSemester}>
-          <Text style={{ fontSize: 16, marginRight: 5 }}>Semestre Atual</Text>
-          <Switch
-            trackColor={{ false: "#767577", true: "green" }}
-            thumbColor={isEnabled ? "navy" : "#f4f3f4"}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch}
-            value={isEnabled}
+      <ScrollView>
+        <View style={styles.container}>
+
+          <TextInput
+            mode="outlined"
+            label="Ano / Semestre"
+            placeholder="2022/1"
+            autoCapitalize="none"
+            activeOutlineColor="navy"
+            value={semestre}
+            style={styles.inputSemesterName}
+            onChangeText={e => setSemester(e)}
           />
+          <SelectSubjects
+            dayOfWeek="Segunda-feira"
+            label="Segunda-feira"
+            subjectsOfWeek={subjectsMonday}
+            func={setmon}
+          />
+          <SelectSubjects
+            dayOfWeek="Terça-feira"
+            subjectsOfWeek={subjectsTuesday}
+            func={settue}
+          />
+          <SelectSubjects
+            dayOfWeek="Quarta-feira"
+            subjectsOfWeek={subjectsWednesday}
+            func={setwed}
+          />
+          <SelectSubjects
+            dayOfWeek="Quinta-feira"
+            subjectsOfWeek={subjectsThursday}
+            func={setthu}
+          />
+          <SelectSubjects
+            dayOfWeek="Sexta-feira"
+            subjectsOfWeek={subjectsFriday}
+            func={setfri}
+          />
+          <View style={styles.currentSemester}>
+            <Text style={{ fontSize: 16, marginRight: 5 }}>Semestre Atual</Text>
+            <Switch
+              trackColor={{ false: "#767577", true: "green" }}
+              thumbColor={isEnabled ? "navy" : "#f4f3f4"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch}
+              value={isEnabled}
+            />
+          </View>
+          {!!showIt ? <Text style={styles.alertText}>{returnText}</Text> : null}
+          <Button style={styles.btnSave} mode="contained" color="navy" onPress={() => save()}>
+            Salvar Semestre
+          </Button>
         </View>
-        {!!showIt ? <Text style={styles.alertText}>{returnText}</Text> : null}
-        <Button style={styles.btnSave} mode="contained" color="navy" onPress={() => save()}>
-          Salvar Semestre
-        </Button>
-      </View>
+      </ScrollView>
     </>
   );
 }
