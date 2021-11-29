@@ -65,7 +65,7 @@ export default function GridCollege() {
       <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
  
         <Text style={{ fontSize: 25, textAlign: 'center' }}>
-          No Record Inserted Database is Empty...
+          Nenhum semestre cadastrado ainda!
           </Text>
  
       </View>
