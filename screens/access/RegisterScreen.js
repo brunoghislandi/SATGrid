@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { Picker } from "@react-native-picker/picker";
 
@@ -18,11 +18,8 @@ const EMPTY_USR = {
 };
 
 export default function RegisterScreen({ navigation }) {
-  // resgatando do AuthContext a função que "recebe"
-  // o usuário logado para depois "divulgar" a toda
-  // a aplicação
-  const { login } = useAuth();
 
+  const { login } = useAuth();
   const [usuario, setUsuario] = useState({ ...EMPTY_USR });
   const [returnText, setReturnText] = useState("");
   const [showIt, setShowIt] = useState(false);
@@ -30,20 +27,13 @@ export default function RegisterScreen({ navigation }) {
   function register() {
     if (!usuario.name.trim() || !usuario.email.trim() || !usuario.password.trim()) {
       setShowIt(true);
-      setReturnText("Certeza que preencheu tudo? (ง︡'-'︠)ง");
+      setReturnText("Certeza que preencheu tudo? 😳");
     } else {
       verify(usuario, notExists => {
         if (!!notExists) {
           saveUser(usuario, userID => {
-            // se conseguimos salvar o usuário com sucesso
-            // podemos registra-lo no AuthContext para uso futuro
-            // em outras telas
             login({ ...usuario, id: userID });
-
-            // depois disso podemos limpar o usuário do formulário
             setUsuario({ ...EMPTY_USR });
-
-            // e navegar para próxima tela...
             navigation.navigate("Inside");
           });
         } else {
@@ -85,7 +75,6 @@ export default function RegisterScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* <ScrollView contentContainerStyle={{ paddingBottom: 25 }}> */}
         <Text style={styles.text}>Opa, vamos nessa?</Text>
         <TextInput
           mode="outlined"
@@ -140,13 +129,12 @@ export default function RegisterScreen({ navigation }) {
           <Picker.Item style={styles.pickeritem} label="Outro" value="Outro" />
         </Picker> 
         {!!showIt ? <Text style={styles.alertText}>{returnText}</Text> : null}
-        <Button style={styles.button} mode="contained" color="green" onPress={() => register()}>
+        <Button style={styles.button} mode="contained" color="navy" onPress={() => register()}>
           CADASTRAR
         </Button>
         <Text style={styles.infoText}> Já tem uma conta? <Text style={{color: "navy"}} onPress={() => navigation.navigate("Login")}>
         Acesse aqui!
       </Text></Text>
-      {/* </ScrollView> */}
     </View>
   );
 }
@@ -154,15 +142,15 @@ export default function RegisterScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     padding: 30,
-    backgroundColor: "#fff",
+    backgroundColor: "#fff"
   },
   input: {
     height: 50,
     fontSize: 13,
     lineHeight: 45,
-    marginBottom: 10,
+    marginBottom: 10
   },
   inputDropdown: {
     backgroundColor: "#f6f6f6",
@@ -177,37 +165,38 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "sans-serif-light",
     color: "navy",
-    fontWeight: '700',
-    alignSelf: "center",
+    fontWeight: "700",
+    alignSelf: "center"
   },
   inputText: {
     fontSize: 10,
     textTransform: "uppercase",
-    color: 'gray',
-    marginTop: 10,
+    color: "gray",
+    marginTop: 10
   },
   pickeritem: {
     margin: 20,
-    alignItems: 'center'
+    alignItems: "center"
   },
   button: {
     marginTop: 20,
     width: "100%",
     height: 45,
     alignSelf: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   infoText: {
     marginTop: 20,
     fontSize: 13,
     fontFamily: "sans-serif-light",
     color: "gray",
-    alignSelf: "center",
+    alignSelf: "center"
   },
   alertText: {
     alignSelf: "center",
     color: "crimson",
     fontWeight: "bold",
     fontSize: 14,
-  },
+    marginTop: 20
+  }
 });

@@ -13,22 +13,21 @@ import { useUsuario } from "../../context/UsuarioContext";
 const db = openDB();
 
 function SelectSubjects({ subjectsOfWeek, dayOfWeek, func }) {
+  
   const [selectedSubject, setSelectedSubject] = useState();
-
   return (
     <View>
       <Text style={styles.dayOfWeek}>{dayOfWeek}</Text>
-      <Picker 
-        selectedValue={selectedSubject} 
+      <Picker
+        selectedValue={selectedSubject}
         style={styles.inputDropdown}
         onValueChange={(itemValue, itemIndex) => {
           setSelectedSubject(itemValue)
-          try{
+          try {
             func(itemValue)
-          } 
-          catch{}
-        }}
-        >
+          }
+          catch { }
+        }}>
         {subjectsOfWeek.map(subject => {
           return <Picker.Item label={subject.name} value={subject.name} />;
         })}
@@ -37,11 +36,7 @@ function SelectSubjects({ subjectsOfWeek, dayOfWeek, func }) {
   );
 }
 
-export default function EditSemester() {
-  // agora que temos o UsuarioContext podemos
-  // recuperar o usuário logado deste local
-  // e não precisar mais nos preocupar com recebe-lo
-  // de um parametro vindo da navegação
+export default function EditSemester({ navigation }) {
   const { usuario } = useUsuario();
   const [showIt, setShowIt] = useState(false);
   const [returnText, setReturnText] = useState("");
@@ -49,38 +44,33 @@ export default function EditSemester() {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
-  const [subjectsMonday, setMonday]  = useState(subjects.monday.subjects);
-  const [subjectsTuesday, setTuesday]  = useState(subjects.tuesday.subjects);
-  const [subjectsWednesday, setWednesday]  = useState(subjects.wednesday.subjects);
-  const [subjectsThursday, setThursday]  = useState(subjects.thursday.subjects);
-  const [subjectsFriday, setFriday]  = useState(subjects.friday.subjects);
+  const [subjectsMonday, setMonday] = useState(subjects.monday.subjects);
+  const [subjectsTuesday, setTuesday] = useState(subjects.tuesday.subjects);
+  const [subjectsWednesday, setWednesday] = useState(subjects.wednesday.subjects);
+  const [subjectsThursday, setThursday] = useState(subjects.thursday.subjects);
+  const [subjectsFriday, setFriday] = useState(subjects.friday.subjects);
 
-  async function valida(arr,diaSemana,func){
+  async function valida(arr, diaSemana, func) {
     var newArr = [];
     await db.transaction(tx => {
-      for(i=0;i<(arr.length-1);i++){
-        /* Checa se alguma matéria já foi feita em algum semestre finalizado */
-        
-
-            /* Checa se a matéria tem pré-requisito */
-            if(arr[i].req != ""){
-              /* Checa se já foi feito algum semestre com a matéria que é requisito */
-              let req = arr[i].req;
-              let cont = i;
-              tx.executeSql(`SELECT * FROM semestres WHERE usuario_id = ? AND ` + diaSemana + ` = ?`, [usuario.id, req], (_, rs) => {
-                if (rs.rows.length > 0) {
-                  newArr.push(arr[cont])
-                  
-                }
-              });
-            }else{
-              newArr.push(arr[i])
+      for (i = 0; i < (arr.length - 1); i++) {
+        /* Checa se a matéria tem pré-requisito */
+        if (arr[i].req != "") {
+          /* Checa se já foi feito algum semestre com a matéria que é requisito */
+          let req = arr[i].req;
+          let cont = i;
+          tx.executeSql(`SELECT * FROM semestres WHERE usuario_id = ? AND ` + diaSemana + ` = ?`, [usuario.id, req], (_, rs) => {
+            if (rs.rows.length > 0) {
+              newArr.push(arr[cont])
             }
+          });
+        } else {
+          newArr.push(arr[i])
+        }
       }
       func(newArr)
     });
   }
-
 
   const [semestre, setSemester] = useState("");
   const [mon, setmon] = useState(subjects.monday.subjects[0].name);
@@ -88,7 +78,7 @@ export default function EditSemester() {
   const [wed, setwed] = useState(subjects.wednesday.subjects[0].name);
   const [thu, setthu] = useState(subjects.thursday.subjects[0].name);
   const [fri, setfri] = useState(subjects.friday.subjects[0].name);
-  
+
   function save() {
     if (!semestre) {
       setShowIt(true);
@@ -126,118 +116,117 @@ export default function EditSemester() {
   useEffect(() => {
     valida(subjects.monday.subjects, "materia1", setMonday)
     valida(subjects.tuesday.subjects, "materia2", setTuesday)
-    valida(subjects.wednesday.subjects, "materia3",setWednesday)
+    valida(subjects.wednesday.subjects, "materia3", setWednesday)
     valida(subjects.thursday.subjects, "materia4", setThursday)
     valida(subjects.friday.subjects, "materia5", setFriday)
   }, []);
 
+  navigation.addListener("focus", () => {
+    setShowIt(false);
+  });
+
   return (
     <>
-    <View style={styles.container}>
-    <TextInput
-        mode="outlined"
-        label="Título do semestre"
-        placeholder="2022/1"
-        autoCapitalize="none"
-        activeOutlineColor="navy"
-        value={semestre}
-        style={styles.inputSemesterName}
-        onChangeText={e => setSemester(e)}
-      />
-
-      <SelectSubjects 
+      <View style={styles.container}>
+        <TextInput
+          mode="outlined"
+          label="Ano / Semestre"
+          placeholder="2022/1"
+          autoCapitalize="none"
+          activeOutlineColor="navy"
+          value={semestre}
+          style={styles.inputSemesterName}
+          onChangeText={e => setSemester(e)}
+        />
+        <SelectSubjects
           dayOfWeek="Segunda-feira"
           label="Segunda-feira"
-          subjectsOfWeek={subjectsMonday} 
+          subjectsOfWeek={subjectsMonday}
           func={setmon}
-      />
-      <SelectSubjects 
-          dayOfWeek="Terça-feira"
-          subjectsOfWeek={subjectsTuesday} 
-          func={settue}
-      />
-      <SelectSubjects 
-          dayOfWeek="Quarta-feira"
-          subjectsOfWeek={subjectsWednesday} 
-          func={setwed}
-      />
-      <SelectSubjects 
-          dayOfWeek="Quinta-feira"
-          subjectsOfWeek={subjectsThursday} 
-          func={setthu}
-      />
-      <SelectSubjects 
-          dayOfWeek="Sexta-feira"
-          subjectsOfWeek={subjectsFriday} 
-          func={setfri}
-      />
-
-      <View style={styles.currentSemester}>
-        <Text style={{fontSize: 16, marginRight: 5}}>Semestre Atual</Text>
-        <Switch
-          trackColor={{ false: "#767577", true: "green" }}
-          thumbColor={isEnabled ? "navy" : "#f4f3f4"}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={isEnabled}
         />
-      </View>
-      <Button style={styles.btnSave} mode="contained" color="green" onPress={() => save()}>
-        Salvar Semestre
-      </Button>
-      {!!showIt ? <Text style={styles.alertText}>{returnText}</Text> : null}
+        <SelectSubjects
+          dayOfWeek="Terça-feira"
+          subjectsOfWeek={subjectsTuesday}
+          func={settue}
+        />
+        <SelectSubjects
+          dayOfWeek="Quarta-feira"
+          subjectsOfWeek={subjectsWednesday}
+          func={setwed}
+        />
+        <SelectSubjects
+          dayOfWeek="Quinta-feira"
+          subjectsOfWeek={subjectsThursday}
+          func={setthu}
+        />
+        <SelectSubjects
+          dayOfWeek="Sexta-feira"
+          subjectsOfWeek={subjectsFriday}
+          func={setfri}
+        />
+        <View style={styles.currentSemester}>
+          <Text style={{ fontSize: 16, marginRight: 5 }}>Semestre Atual</Text>
+          <Switch
+            trackColor={{ false: "#767577", true: "green" }}
+            thumbColor={isEnabled ? "navy" : "#f4f3f4"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={isEnabled}
+          />
+        </View>
+        {!!showIt ? <Text style={styles.alertText}>{returnText}</Text> : null}
+        <Button style={styles.btnSave} mode="contained" color="navy" onPress={() => save()}>
+          Salvar Semestre
+        </Button>
       </View>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flex: 1,
     padding: 20,
-    justifyContent: 'center',
-    backgroundColor: "#fff",
+    justifyContent: "center",
+    backgroundColor: "#fff"
   },
   currentSemester: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
-    marginBottom: 10,
+    marginTop: 10,
+    marginBottom: 10
   },
   inputSemesterName: {
     height: 50,
     fontSize: 13,
     lineHeight: 45,
-    marginBottom: 50,
+    marginBottom: 25
   },
   btnSave: {
-    marginTop: 10,
     width: "100%",
     height: 40,
     alignSelf: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
-
   dayOfWeek: {
     fontSize: 10,
     textTransform: "uppercase",
-    color: 'gray',
-    marginTop: 10,
+    color: "gray",
+    marginTop: 10
   },
   alertText: {
     alignSelf: "center",
     color: "crimson",
     fontWeight: "bold",
     fontSize: 13,
-    marginTop: 20
+    marginBottom: 10
   },
   inputDropdown: {
     backgroundColor: "#f6f6f6",
     borderWidth: 1,
     borderColor: "gray",
     borderRadius: 5,
-    marginTop: 5,
-
-  },
+    marginTop: 5
+  }
 });

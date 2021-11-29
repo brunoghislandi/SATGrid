@@ -14,9 +14,6 @@ const EMPTY_USR = {
 const db = openDB();
 
 export default function LoginScreen({ navigation }) {
-  // resgatando do AuthContext a função que "recebe"
-  // o usuário logado para depois "divulgar" a toda
-  // a aplicação
   const { login } = useAuth();
 
   const [usuario, setUsuario] = useState({ ...EMPTY_USR });
@@ -26,19 +23,14 @@ export default function LoginScreen({ navigation }) {
   function testLogin() {
     if (!usuario.email.trim() || !usuario.password.trim()) {
       setShowIt(true);
-      setReturnText("Certeza que preencheu tudo? (ง︡'-'︠)ง");
+      setReturnText("Certeza que preencheu tudo? 😳");
     } else {
       verify(usuario, userData => {
         if (!userData) {
           setShowIt(true);
           setReturnText("Dados não cadastrados 😳");
         } else {
-          // se conseguimos encontrar o usuário com sucesso
-          // podemos registra-lo no AuthContext para uso futuro
-          // em outras telas
           login(userData);
-
-          // e navegar para próxima tela...
           navigation.navigate("Inside");
         }
       });
@@ -55,7 +47,6 @@ export default function LoginScreen({ navigation }) {
             onSuccess(null);
           } else {
             console.log(`Usuário ID ${rs.rows._array[0].id} logado.`);
-            // melhor passar todos os dados do usuário, não apenas o ID
             onSuccess(rs.rows._array[0]);
           }
         }
@@ -91,7 +82,7 @@ export default function LoginScreen({ navigation }) {
         onChangeText={password => setUsuario({ ...usuario, password })}
         style={styles.input}
       />
-      <Button style={styles.button} mode="contained" color="green" onPress={() => testLogin()}>
+      <Button style={styles.button} mode="contained" color="navy" onPress={() => testLogin()}>
         ACESSAR
       </Button>
       <Text style={styles.infoText}>Ainda não tem cadastro? <Text style={{color: "navy"}} onPress={() => navigation.navigate("Register")}>
@@ -106,7 +97,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 30,
-    justifyContent: 'center',
+    justifyContent: "center",
     backgroundColor: "#fff",
   },
   input: {
@@ -121,7 +112,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "sans-serif-light",
     color: "navy",
-    fontWeight: '700',
+    fontWeight: "700",
     alignSelf: "center",
   },
   inputText: {
