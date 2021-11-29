@@ -15,10 +15,7 @@ import logo from "./assets/logo.png";
 import LoginScreen from "./screens/access/LoginScreen";
 import RegisterScreen from "./screens/access/RegisterScreen";
 
-import ShowUser from "./screens/HomeScreen";
-
-import EditProfile from "./screens/user/EditProfile";
-import GridCollege from "./screens/user/GridCollege";
+import GridCollege from "./screens/semester/GridCollege";
 
 import EditSemester from "./screens/semester/EditSemester";
 
@@ -47,10 +44,8 @@ function InsideApp() {
         },
         headerTintColor: "#fff",
       }}>
-      <Drawer.Screen name="ShowUser" component={ShowUser} options={{ title: "Bem-vindo!" }} />
+      <Drawer.Screen name="Editar Semestre" component={EditSemester} options={{ title: "Crie seu Semestre" }} />
       <Drawer.Screen name="Grade Completa" component={GridCollege} options={{ title: "Suas matérias" }} />
-      <Drawer.Screen name="Editar Semestre" component={EditSemester} options={{ title: "Edição de Semestre" }} />
-      <Drawer.Screen name="Editar Perfil" component={EditProfile} options={{ title: "Edição de Perfil" }} />
     </Drawer.Navigator>
   );
 }

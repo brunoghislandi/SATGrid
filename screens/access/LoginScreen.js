@@ -39,12 +39,7 @@ export default function LoginScreen({ navigation }) {
           login(userData);
 
           // e navegar para próxima tela...
-          navigation.navigate("Inside", {
-            screen: "ShowUser",
-            params: {
-              userID: userData.id,
-            },
-          });
+          navigation.navigate("Inside");
         }
       });
     }

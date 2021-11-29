@@ -44,7 +44,7 @@ export default function RegisterScreen({ navigation }) {
             setUsuario({ ...EMPTY_USR });
 
             // e navegar para próxima tela...
-            navigation.navigate("Inside", { screen: "ShowUser", params: { userID } });
+            navigation.navigate("Inside");
           });
         } else {
           setShowIt(true);
