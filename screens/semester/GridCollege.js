@@ -47,7 +47,7 @@ export default function GridCollege({navigation}) {
     return (
       <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
         <Text style={styles.epmtyAlert}>
-          Opa! Parece que você ainda não cadastrou nenhum Semestre!
+          Opa! Parece que você ainda não cadastrou nenhum semestre!
         </Text>
       </View>
     );
