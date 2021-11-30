@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, FlatList, StyleSheet, Text, StatusBar, SafeAreaView, RefreshControl } from "react-native";
+import { Button } from "react-native-paper";
 
 import openDB from "../../db";
 
@@ -7,7 +8,7 @@ import { useUsuario } from "../../context/UsuarioContext";
 
 const db = openDB();
 
-export default function GridCollege({navigation}) {
+export default function GridCollege({ navigation }) {
   const { usuario } = useUsuario();
   const [refreshing, setRefreshing] = useState(true);
 
@@ -36,11 +37,11 @@ export default function GridCollege({navigation}) {
   }
 
   useEffect(() => {
-    loadData()
+    loadData();
   }, []);
 
   navigation.addListener("focus", () => {
-    loadData()
+    loadData();
   });
 
   const emptyMSG = (status) => {
@@ -67,12 +68,15 @@ export default function GridCollege({navigation}) {
             renderItem={({ item }) =>
               <View key={item.student_id} style={styles.container}>
                 <Text style={styles.semesterName}>{item.name}</Text>
+                <Text style={styles.semesterStyle}> Semestre atual: <Text style={styles.resultSem}>{item.semestresatual > 0 ? "Sim" : "Não"} </Text></Text>
                 <Text style={styles.BaseStyle}> Segunda: <Text style={styles.itemStyle}>{item.materia1}</Text> </Text>
                 <Text style={styles.BaseStyle}> Terça: <Text style={styles.itemStyle}>{item.materia2} </Text></Text>
                 <Text style={styles.BaseStyle}> Quarta: <Text style={styles.itemStyle}>{item.materia3} </Text></Text>
                 <Text style={styles.BaseStyle}> Quinta: <Text style={styles.itemStyle}>{item.materia4} </Text></Text>
-                <Text style={styles.BaseStyle}> Sexta: <Text style={styles.itemStyle}>{item.materia5} </Text></Text>
-                <Text style={styles.BaseStyle}> Semestre atual: <Text style={styles.itemStyle}>{item.semestresatual > 0 ? "Sim" : "Não"} </Text></Text>
+                <Text style={styles.BaseStyle}> Sexta: <Text style={styles.itemStyle}>{item.materia5} </Text></Text>            
+                <Button style={styles.button} mode="contained" color="navy">
+                  APAGAR
+                </Button>
               </View>
             }
           />
@@ -101,6 +105,13 @@ const styles = StyleSheet.create({
     shadowRadius: 2.22,
     elevation: 3
   },
+  button: {
+    marginTop: 10,
+    width: "100%",
+    height: 40,
+    alignSelf: "center",
+    justifyContent: "center",
+  },
   semesterName: {
     color: "navy",
     fontSize: 18,
@@ -116,6 +127,10 @@ const styles = StyleSheet.create({
   itemStyle: {
     color: "gray",
   },
+  semesterStyle: {
+    color: "navy",
+    fontWeight: "700"
+  },
   epmtyAlert: {
     color: "navy",
     fontWeight: "700",
@@ -125,5 +140,9 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     padding: 20,
     margin: 20
+  },
+  resultSem: {
+    color: "dodgerblue",
+    fontWeight: "700" 
   }
 });

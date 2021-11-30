@@ -16,7 +16,7 @@ import LoginScreen from "./screens/access/LoginScreen";
 import RegisterScreen from "./screens/access/RegisterScreen";
 
 import GridCollege from "./screens/semester/GridCollege";
-
+import ShowUser from "./screens/user/Profile";
 import EditSemester from "./screens/semester/EditSemester";
 
 function InitialScreen({ navigation }) {
@@ -46,6 +46,7 @@ function InsideApp() {
       }}>
       <Drawer.Screen name="Grade Completa" component={GridCollege} options={{ title: "Minhas matérias" }} />
       <Drawer.Screen name="Editar Semestre" component={EditSemester} options={{ title: "Criar semestre" }} />
+      <Drawer.Screen name="Meu Perfil" component={ShowUser} options={{ title: "Suas Informações" }} />
     </Drawer.Navigator>
   );
 }
