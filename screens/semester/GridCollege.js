@@ -56,7 +56,7 @@ export default function GridCollege({ navigation }) {
 
   function deleteSemester(semestre_id) {
 
-    Alert.alert('Apagar', 'Deseja Realmente Apagar o Semestre?', [
+    Alert.alert('Apagar', 'Deseja realmente apagar esse Semestre?', [
       
       {
         text: 'Não',
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     shadowColor: "gray",
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 1
     },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 40,
     alignSelf: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   semesterName: {
     color: "navy",
@@ -149,10 +149,11 @@ const styles = StyleSheet.create({
     fontWeight: "700"
   },
   itemStyle: {
-    color: "gray",
+    color: "gray"
   },
   semesterStyle: {
     color: "navy",
+    paddingLeft: 2,
     fontWeight: "700"
   },
   epmtyAlert: {
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
     margin: 20
   },
   resultSem: {
-    color: "dodgerblue",
+    color: "blue",
     fontWeight: "700"
   }
 });

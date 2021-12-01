@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     lineHeight: 21,
     textAlign: "center",
-    color: "navy"
+    color: "navy",
+    fontWeight: "700"
   },
   defautText: {
     fontSize: 16,
