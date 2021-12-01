@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ActivityIndicator, ScrollView, Text } from 'react-native';
 import { Button } from "react-native-paper";
+import { useNavigation } from '@react-navigation/native';
 
 import openDB from "../../db";
 
@@ -8,8 +9,8 @@ import { useUsuario } from "../../context/UsuarioContext";
 
 const db = openDB();
 
-function ReturnData({navigation}) {
-
+function ReturnData() {
+  const navigation = useNavigation(); 
   const { usuario } = useUsuario();
 
   return (
@@ -23,7 +24,7 @@ function ReturnData({navigation}) {
         <Text style={[styles.defautText, styles.defautText, { marginTop: 5, color: "red" }]}>Sexo:</Text>
         <Text style={styles.defautText}>{usuario.sex}</Text>
         <Text style={styles.usuarioText}>Se estiver saindo, até a próxima! ❤</Text>
-        <Button style={styles.button} mode="contained" color="crimson" /* onPress={() => navigation.navigate('App', { screen: 'Login'})} */>
+        <Button style={styles.button} mode="contained" color="crimson" onPress={() => navigation.navigate('Login')}>
         LOGOUT
       </Button>
     </View>
