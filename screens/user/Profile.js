@@ -26,7 +26,7 @@ function ReturnData() {
         <Text style={styles.defautText}>{usuario.sex}</Text>
         </View>
         <Text style={styles.usuarioText}>Se estiver saindo, até a próxima!</Text>
-        <Button style={styles.button} mode="contained" color="crimson" onPress={() => navigation.navigate('Login')}>
+        <Button style={styles.button} mode="contained" color="forestgreen" onPress={() => navigation.navigate('Login')}>
         LOGOUT
       </Button>
     </View>
@@ -127,7 +127,8 @@ const styles = StyleSheet.create({
   defautTextTitle: {
     textTransform: "uppercase",
     fontSize: 11,
-    color: "green",
+    color: "forestgreen",
+
   },
   button: {
     marginTop: 10,

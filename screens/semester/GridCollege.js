@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     margin: 20
   },
   resultSem: {
-    color: "red",
+    color: "crimson",
     fontWeight: "700"
   }
 });
