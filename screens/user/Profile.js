@@ -14,16 +14,18 @@ function ReturnData() {
   const { usuario } = useUsuario();
 
   return (
-    <View>
-        <Text style={styles.usuarioText}>Bem vindo de volta, {usuario.name} ;)</Text>
-        <Text style={styles.defautText}>Caso não se lembrar, suas informações são:</Text>
-        <Text style={[styles.defautText, styles.defautText, { marginTop: 5, color: "red" }]}>E-mail:</Text>
+    <View style={styles.container}>
+        <Text style={styles.usuarioText}>Olá, {usuario.name} ;)</Text>
+        <Text style={styles.defaultText}>Caso não se lembre, suas informações são:</Text>
+        <View style={styles.container2}>
+        <Text style={[styles.defautTextTitle, styles.defautTextTitle,]}>E-mail:</Text>
         <Text style={styles.defautText}>{usuario.email}</Text>
-        <Text style={[styles.defautText, styles.defautText, { marginTop: 5, color: "red" }]}>Engenharia:</Text>
+        <Text style={[styles.defautTextTitle, styles.defautTextTitle,]}>Engenharia:</Text>
         <Text style={styles.defautText}>{usuario.eng}</Text>
-        <Text style={[styles.defautText, styles.defautText, { marginTop: 5, color: "red" }]}>Sexo:</Text>
+        <Text style={[styles.defautTextTitle, styles.defautTextTitle,]}>Sexo:</Text>
         <Text style={styles.defautText}>{usuario.sex}</Text>
-        <Text style={styles.usuarioText}>Se estiver saindo, até a próxima! ❤</Text>
+        </View>
+        <Text style={styles.usuarioText}>Se estiver saindo, até a próxima!</Text>
         <Button style={styles.button} mode="contained" color="crimson" onPress={() => navigation.navigate('Login')}>
         LOGOUT
       </Button>
@@ -73,36 +75,59 @@ export default function ShowUser() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10
+  },
+  container2: {
+    flex: 1,
+    width: '100%',
+    padding: 20,
     marginLeft: 15,
     marginRight: 15,
     marginTop: 15,
-    marginBottom: 15,
+    marginBottom: 2,
     borderRadius: 7,
     backgroundColor: "#FFF",
     shadowColor: "gray",
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 1
     },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
-    elevation: 3
+    elevation: 3,
+    alignItems: "center",
   },
   usuarioText: {
     marginTop: 30,
-    marginBottom: 20,
-    fontSize: 18,
+    marginBottom: 10,
+    fontSize: 16,
+    fontWeight: '700',
     lineHeight: 21,
     textAlign: "center",
     color: "navy",
-    fontWeight: "700"
+    alignSelf: "center",
+    justifyContent: "center",
   },
   defautText: {
     fontSize: 16,
     lineHeight: 21,
     textAlign: "center",
-    color: "black"
+    marginBottom: 10,
+    color: "gray"
+  },
+  defaultText: {
+    fontSize: 13,
+    marginBottom: 20,
+    textAlign: "center",
+    color: "gray",
+
+  },
+  defautTextTitle: {
+    textTransform: "uppercase",
+    fontSize: 11,
+    color: "green",
   },
   button: {
     marginTop: 10,

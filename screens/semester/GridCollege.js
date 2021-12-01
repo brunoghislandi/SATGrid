@@ -56,7 +56,7 @@ export default function GridCollege({ navigation }) {
 
   function deleteSemester(semestre_id) {
 
-    Alert.alert('Apagar', 'Deseja realmente apagar esse Semestre?', [
+    Alert.alert('Apagar', 'Deseja realmente apagar o semestre?', [
       
       {
         text: 'Não',
@@ -149,7 +149,8 @@ const styles = StyleSheet.create({
     fontWeight: "700"
   },
   itemStyle: {
-    color: "gray"
+    color: "gray",
+    fontWeight: '200'
   },
   semesterStyle: {
     color: "navy",
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
     margin: 20
   },
   resultSem: {
-    color: "blue",
+    color: "red",
     fontWeight: "700"
   }
 });
