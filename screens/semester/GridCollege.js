@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, FlatList, StyleSheet, Text, StatusBar, SafeAreaView, RefreshControl } from "react-native";
+import { View, FlatList, StyleSheet, Text, StatusBar, SafeAreaView, RefreshControl, Alert } from "react-native";
 import { Button } from "react-native-paper";
 
 import openDB from "../../db";
@@ -54,6 +54,30 @@ export default function GridCollege({ navigation }) {
     );
   }
 
+  function deleteSemester(semestre_id) {
+
+    Alert.alert('Apagar', 'Deseja Realmente Apagar o Semestre?', [
+      
+      {
+        text: 'Não',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'Sim', onPress: () =>
+          db.transaction(tx => {
+            tx.executeSql(
+              "DELETE FROM semestres WHERE id = ?",
+              [semestre_id],
+              (_, rs) => {
+                loadData();
+              },
+            );
+          })
+      },
+    ]);
+  }
+
   return (
 
     <SafeAreaView style={{ flex: 1 }}>
@@ -73,8 +97,8 @@ export default function GridCollege({ navigation }) {
                 <Text style={styles.BaseStyle}> Terça: <Text style={styles.itemStyle}>{item.materia2} </Text></Text>
                 <Text style={styles.BaseStyle}> Quarta: <Text style={styles.itemStyle}>{item.materia3} </Text></Text>
                 <Text style={styles.BaseStyle}> Quinta: <Text style={styles.itemStyle}>{item.materia4} </Text></Text>
-                <Text style={styles.BaseStyle}> Sexta: <Text style={styles.itemStyle}>{item.materia5} </Text></Text>            
-                <Button style={styles.button} mode="contained" color="navy">
+                <Text style={styles.BaseStyle}> Sexta: <Text style={styles.itemStyle}>{item.materia5} </Text></Text>
+                <Button style={styles.button} mode="contained" color="navy" onPress={() => deleteSemester(item.id)}>
                   APAGAR
                 </Button>
               </View>
@@ -143,6 +167,6 @@ const styles = StyleSheet.create({
   },
   resultSem: {
     color: "dodgerblue",
-    fontWeight: "700" 
+    fontWeight: "700"
   }
 });
