@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
     elevation: 3,
-    alignItems: "center",
+    alignItems: "center"
   },
   usuarioText: {
     marginTop: 30,
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "navy",
     alignSelf: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   defautText: {
     fontSize: 16,
@@ -121,20 +121,19 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginBottom: 20,
     textAlign: "center",
-    color: "gray",
+    color: "gray"
 
   },
   defautTextTitle: {
     textTransform: "uppercase",
     fontSize: 11,
-    color: "forestgreen",
-
+    color: "forestgreen"
   },
   button: {
     marginTop: 10,
     width: "90%",
     height: 45,
     alignSelf: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   }
 });
